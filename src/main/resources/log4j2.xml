@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="off" monitorInterval="1800">
+    <properties>
+        <property name="LOG_HOME">${sys:user.home}/logs/storm</property>
+    </properties>
+    <appenders>
+        <!-- 定义控制台输出 -->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd'T'HH:mm:ssZ}  | [%thread] | %-5level | %logger{50} | %msg%n"/>
+        </Console>
+    </appenders>
+
+    <loggers>
+        <!-- Root Logger -->
+        <root level="info" includeLocation="true">
+            <appender-ref ref="Console"/>
+        </root>
+
+    </loggers>
+
+</configuration>
