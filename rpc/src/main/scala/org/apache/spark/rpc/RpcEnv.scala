@@ -21,6 +21,7 @@ import scala.concurrent.Future
   */
 abstract class RpcEnv(conf: RpcConf) {
 
+  // 超时时间
   val defaultLookupTimeout = RpcUtils.lookupRpcTimeout(conf) //default 120s
 
   /**
