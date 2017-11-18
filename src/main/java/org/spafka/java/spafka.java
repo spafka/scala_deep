@@ -1,6 +1,5 @@
 package org.spafka.java;
 
-import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -15,7 +14,7 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.toList;
 
 
-@Log4j2
+
 public class spafka {
 
     public static final String charSet = "gbk";

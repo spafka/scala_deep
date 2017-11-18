@@ -218,6 +218,7 @@ public class TransportClient implements Closeable {
    */
   public long sendRpc(ByteBuffer message, final RpcResponseCallback callback) {
     final long startTime = System.currentTimeMillis();
+    logger.warn("remote rpc called {}",message);
     if (logger.isTraceEnabled()) {
       logger.trace("Sending RPC to {}", getRemoteAddress(channel));
     }

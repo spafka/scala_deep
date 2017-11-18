@@ -6,6 +6,7 @@ import org.apache.spark.RpcException
 import org.apache.spark.rpc.{RpcAddress, RpcEndpoint, ThreadSafeRpcEndpoint}
 import org.slf4j.LoggerFactory
 
+import scala.reflect.ClassTag
 import scala.util.control.NonFatal
 
 
@@ -39,6 +40,8 @@ private[netty] case class RemoteProcessConnectionError(cause: Throwable, remoteA
   */
 private[netty] class Inbox(
                             val endpointRef: NettyRpcEndpointRef,
+
+
                             val endpoint: RpcEndpoint) {
   inbox =>
   // Give this an alias so we can use it more clearly in closures.
@@ -66,7 +69,7 @@ private[netty] class Inbox(
   }
 
   /**
-    * Process stored messages.
+    * Process stored messages. 对于入站的消息的处理 依据模式匹配可以对不同消息进行不同的操作
     */
   def process(dispatcher: Dispatcher): Unit = {
     var message: InboxMessage = null
@@ -76,6 +79,7 @@ private[netty] class Inbox(
       }
       message = messages.poll()
       if (message != null) {
+        log.warn(s"inbox message is ${message.getClass}")
         numActiveThreads += 1
       } else {
         return
@@ -84,10 +88,14 @@ private[netty] class Inbox(
     while (true) {
       safelyCall(endpoint) {
         message match {
+
+            // rpc 消息
           case RpcMessage(_sender, content, context) =>
             try {
+              log.warn(s" got an rpc message from ${_sender},content=${content.getClass},${context}")
               endpoint.receiveAndReply(context).applyOrElse[Any, Unit](content, { msg =>
                 throw new RpcException(s"Unsupported message $message from ${_sender}")
+
               })
             } catch {
               case NonFatal(e) =>

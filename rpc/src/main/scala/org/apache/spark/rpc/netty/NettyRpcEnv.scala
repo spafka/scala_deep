@@ -111,6 +111,7 @@ class NettyRpcEnv(
       conf, RpcEndpointAddress(addr.rpcAddress, RpcEndpointVerifier.NAME), this)
     verifier.ask[Boolean](RpcEndpointVerifier.createCheckExistence(endpointRef.name)).flatMap { find =>
       if (find) {
+        log.warn(s"成功连接上remote endpoint ${addr.rpcAddress.host} ,${addr.rpcAddress.port}")
         Future.successful(endpointRef)
       } else {
         Future.failed(new RpcEndpointNotFoundException(uri))
@@ -125,6 +126,7 @@ class NettyRpcEnv(
 
   private def postToOutbox(receiver: NettyRpcEndpointRef, message: OutboxMessage): Unit = {
     if (receiver.client != null) {
+      log.warn("stry to send message with netty")
       message.sendWith(receiver.client)
     } else {
       require(receiver.address != null,
@@ -148,6 +150,8 @@ class NettyRpcEnv(
         outboxes.remove(receiver.address)
         targetOutbox.stop()
       } else {
+        // 通过transportClient 进行远程传输
+        log.warn(s"stry to send message with netty message=${message}")
         targetOutbox.send(message)
       }
     }
@@ -201,7 +205,8 @@ class NettyRpcEnv(
       } else {
         val rpcMessage = RpcOutboxMessage(serialize(message),
           onFailure,
-          (client, response) => onSuccess(deserialize[Any](client, response)))
+         (client, response) => onSuccess(deserialize[Any](client, response)))
+      //  log.warn(s"rpc send message=${javaSerializerInstance.deserialize(rpcMessage.content)}")
         postToOutbox(message.receiver, rpcMessage)
         promise.future.onFailure {
           case _: TimeoutException => rpcMessage.onTimeout()
@@ -209,7 +214,7 @@ class NettyRpcEnv(
         }(ThreadUtils.sameThread)
       }
 
-      val timeoutCancelable = timeoutScheduler.schedule(new Runnable {
+      var  timeoutCancelable = timeoutScheduler.schedule(new Runnable {
         override def run(): Unit = {
           onFailure(new TimeoutException(s"Cannot receive any reply in ${timeout.duration}"))
         }

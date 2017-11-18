@@ -3,6 +3,8 @@ package org.apache.spark.rpc.netty
 import java.nio.ByteBuffer
 import java.util.concurrent.Callable
 import javax.annotation.concurrent.GuardedBy
+
+import org.apache.spark.Logging.Logging
 import org.apache.spark.RpcException
 import org.apache.spark.network.client.{RpcResponseCallback, TransportClient}
 import org.apache.spark.rpc.{RpcAddress, RpcEnvStoppedException}
@@ -48,6 +50,8 @@ private[netty] case class RpcOutboxMessage(
 
   override def sendWith(client: TransportClient): Unit = {
     this.client = client
+
+    log.warn(s"stry to send message with netty in  TransportClient ")
     this.requestId = client.sendRpc(content, this)
   }
 
@@ -69,7 +73,7 @@ private[netty] case class RpcOutboxMessage(
 
 }
 
-private[netty] class Outbox(nettyEnv: NettyRpcEnv, val address: RpcAddress) {
+private[netty] class Outbox(nettyEnv: NettyRpcEnv, val address: RpcAddress) extends Logging{
 
   outbox => // Give this an alias so we can use it more clearly in closures.
 
@@ -149,6 +153,8 @@ private[netty] class Outbox(nettyEnv: NettyRpcEnv, val address: RpcAddress) {
       try {
         val _client = synchronized { client }
         if (_client != null) {
+
+
           message.sendWith(_client)
         } else {
           assert(stopped == true)

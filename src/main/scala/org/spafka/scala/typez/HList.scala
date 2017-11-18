@@ -24,14 +24,24 @@ object HList {
 
 }
 
-object appType{
+object appType {
 
   def main(args: Array[String]): Unit = {
 
-    val x="1"::2::3::5.0::HNil
+    val x = "1" :: 2 :: 3 :: 5.0 :: HNil
 
     println(x)
+    val a = new A
 
+     print(a.foo)
 
   }
+
+}
+
+
+class A {
+  a =>  //this别名
+  val x=2
+  def foo =a.x + this.x
 }

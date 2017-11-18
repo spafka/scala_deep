@@ -2,7 +2,7 @@ package org.apache.spark
 
 import java.util.concurrent.{Callable, ExecutorCompletionService, Executors, Future}
 
-import org.apache.spark.rpc.netty.NettyRpcEnvFactory
+import org.apache.spark.rpc.netty.{NettyRpcEnvFactory, SayBye}
 import org.apache.spark.rpc.{RpcAddress, RpcEndpointRef, RpcEnv, RpcEnvClientConfig}
 
 

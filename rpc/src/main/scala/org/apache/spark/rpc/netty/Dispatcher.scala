@@ -47,6 +47,7 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
 
   def registerRpcEndpoint(name: String, endpoint: RpcEndpoint): NettyRpcEndpointRef = {
     val addr = RpcEndpointAddress(nettyEnv.address, name)
+    log warn(s"服务器注册一个endpoint ${nettyEnv.address} -> ${name}")
     val endpointRef = new NettyRpcEndpointRef(nettyEnv.conf, addr, nettyEnv)
     synchronized {
       if (stopped) {
@@ -55,8 +56,9 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
       if (endpoints.putIfAbsent(name, new EndpointData(name, endpoint, endpointRef)) != null) {
         throw new IllegalArgumentException(s"There is already an RpcEndpoint called $name")
       }
-      val data = endpoints.get(name)
+      val data: EndpointData = endpoints.get(name)
       endpointRefs.put(data.endpoint, data.ref)
+
       receivers.offer(data) // for the OnStart message
     }
     endpointRef
@@ -198,8 +200,10 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
         while (true) {
           try {
             val data = receivers.take()
+
             if (data == PoisonPill) {
               // Put PoisonPill back so that other MessageLoops can see it.
+              log.warn(s"before stop call the posionHook ${data} ")
               receivers.offer(PoisonPill)
               return
             }

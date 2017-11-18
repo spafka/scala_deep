@@ -1,7 +1,8 @@
-package org.apache.spark
+package org.apache.spark.rpc.netty
 
+import org.apache.spark.RpcConf
 import org.apache.spark.rpc.netty.NettyRpcEnvFactory
-import org.apache.spark.rpc.{RpcCallContext, RpcEndpoint, RpcEnv, RpcEnvServerConfig}
+import org.apache.spark.rpc._
 
 object HelloworldServer {
 
@@ -35,7 +36,13 @@ class HelloEndpoint(override val rpcEnv: RpcEnv) extends RpcEndpoint {
 
   override def onStop(): Unit = {
     println("stop hello endpoint")
+
   }
+
+  override def onDisconnected(remoteAddress: RpcAddress): Unit = {
+    print("onDisconnected")
+  }
+
 }
 
 
