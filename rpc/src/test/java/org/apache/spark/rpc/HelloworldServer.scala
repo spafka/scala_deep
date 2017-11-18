@@ -1,8 +1,7 @@
-package org.apache.spark.rpc.netty
+package org.apache.spark.rpc
 
 import org.apache.spark.RpcConf
 import org.apache.spark.rpc.netty.NettyRpcEnvFactory
-import org.apache.spark.rpc._
 
 object HelloworldServer {
 

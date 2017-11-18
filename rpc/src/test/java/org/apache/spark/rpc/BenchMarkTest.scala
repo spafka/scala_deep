@@ -1,9 +1,9 @@
-package org.apache.spark
+package org.apache.spark.rpc
 
 import java.util.concurrent.{Callable, ExecutorCompletionService, Executors, Future}
 
-import org.apache.spark.rpc.netty.{NettyRpcEnvFactory, SayBye}
-import org.apache.spark.rpc.{RpcAddress, RpcEndpointRef, RpcEnv, RpcEnvClientConfig}
+import org.apache.spark.RpcConf
+import org.apache.spark.rpc.netty.NettyRpcEnvFactory
 
 
 object BenchMarkTest {

@@ -1,12 +1,11 @@
-package org.apache.spark.rpc.netty
+package org.apache.spark.rpc
 
 import org.apache.spark.RpcConf
-import org.apache.spark.rpc.netty.{NettyRpcEnvFactory, RemoteProcessDisconnected}
-import org.apache.spark.rpc.{RpcAddress, RpcEndpointRef, RpcEnv, RpcEnvClientConfig}
+import org.apache.spark.rpc.netty.NettyRpcEnvFactory
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
-import scala.concurrent.ExecutionContext.Implicits.global
 
 
 object HelloworldClient {
