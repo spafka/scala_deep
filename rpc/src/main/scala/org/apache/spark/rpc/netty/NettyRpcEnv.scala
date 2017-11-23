@@ -24,21 +24,20 @@ import scala.util.{DynamicVariable, Failure, Success}
 
 // 目前RpcEnv的唯一实现,新创建的NettyRpcEnv主要用于Endpoint的注册、启动transportServer、
 // 获得RPCEndpointRef、创建客户端等等；其主要成员有dispatcher、transportContext。
-class NettyRpcEnv(
-                   val conf: RpcConf,
+class NettyRpcEnv(val conf: RpcConf,
                    javaSerializerInstance: JavaSerializerInstance,
                    host: String) extends RpcEnv(conf) {
 
   private val log = LoggerFactory.getLogger(classOf[NettyRpcEnv])
 
-  //todo 2 创建transportConf 一些默认的rpc值
+  //TODO 建transportConf 一些默认的rpc值
   private[netty] val transportConf = TransportConf.fromSparkConf(
     conf.set("spark.rpc.io.numConnectionsPerPeer", "1"),
     "rpc",
     conf.getInt("spark.rpc.io.threads", 0))
   // 创建Dispatcher，主要用户消息的分发处理
   private val dispatcher: Dispatcher = new Dispatcher(this)
-   log.warn(s"构建dispatcher 分发器完毕 初始化线程池，用于收发消息")
+
   // omit for signature
   private val streamManager = new StreamManager {
     override def getChunk(streamId: Long, chunkIndex: Int) = null
@@ -91,8 +90,8 @@ class NettyRpcEnv(
     val bootstraps: java.util.List[TransportServerBootstrap] = java.util.Collections.emptyList()
     //通过transportContext启动通信底层的服务端
 
-    log.warn(s"is Server mode start with ${bindAddress},${port}, ${bootstraps}")
-    server = transportContext.createServer(bindAddress, port, bootstraps)
+    log.trace(s"is Server mode start with ${bindAddress},${port}, ${bootstraps}")
+    server= transportContext.createServer(bindAddress, port, bootstraps)
     //注册一个RpcEndpointVerifier，对Server进行验证
     dispatcher.registerRpcEndpoint(RpcEndpointVerifier.NAME, new RpcEndpointVerifier(this, dispatcher))
   }

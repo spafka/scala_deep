@@ -15,14 +15,14 @@ import scala.util.control.NonFatal
 
 /**
   * A message dispatcher, responsible for routing RPC messages to the appropriate endpoint(s).
-  * 消息调度器，负责将RPC消息路由到适当的终端。
+  *
+  * serve才有  消息调度器，负责将RPC消息路由到适当的RpcEndpoint。
   */
 private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
 
   private val log = LoggerFactory.getLogger(classOf[Dispatcher])
 
-  private class EndpointData(
-                              val name: String,
+  private class EndpointData(val name: String,
                               val endpoint: RpcEndpoint,
                               val ref: NettyRpcEndpointRef) {
     val inbox = new Inbox(ref, endpoint)
@@ -47,7 +47,7 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
 
   def registerRpcEndpoint(name: String, endpoint: RpcEndpoint): NettyRpcEndpointRef = {
     val addr = RpcEndpointAddress(nettyEnv.address, name)
-    log warn(s"服务器注册一个endpoint ${nettyEnv.address} -> ${name}")
+    log trace (s"Server registerRpcEndpoint  an endpoint ${nettyEnv.address} -> ${name}")
     val endpointRef = new NettyRpcEndpointRef(nettyEnv.conf, addr, nettyEnv)
     synchronized {
       if (stopped) {
@@ -190,6 +190,7 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
     for (i <- 0 until numThreads) {
       pool.execute(new MessageLoop)
     }
+    log trace (s"1. server's dispatcher start a daemon threadpool with ${numThreads} thread to process messageloop ")
     pool
   }
 
@@ -203,7 +204,7 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
 
             if (data == PoisonPill) {
               // Put PoisonPill back so that other MessageLoops can see it.
-              log.warn(s"before stop call the posionHook ${data} ")
+              log.trace(s"before stop call the posionHook ${data} ")
               receivers.offer(PoisonPill)
               return
             }

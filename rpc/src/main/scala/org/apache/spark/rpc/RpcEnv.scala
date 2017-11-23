@@ -13,9 +13,9 @@ import scala.concurrent.Future
   * sender, or logging them if no such sender or `NotSerializableException`.
   *
   * [[RpcEnv]] also provides some methods to retrieve [[RpcEndpointRef]]s given name or uri.
-  */
-/**
-  * 类似actorSystem
+  *
+  * 类似 actorSystem
+  * RpcEnv 提供RpcEndpoint server端服务终端的实现，client端 RpcEndpoint对远程的连接引用
   *
   * @param conf
   */

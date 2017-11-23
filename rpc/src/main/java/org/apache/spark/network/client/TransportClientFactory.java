@@ -128,6 +128,7 @@ public class TransportClientFactory implements Closeable {
       InetSocketAddress.createUnresolved(remoteHost, remotePort);
 
     // Create the ClientPool if we don't have it yet.
+    // todo
     ClientPool clientPool = connectionPool.get(unresolvedAddress);
     if (clientPool == null) {
       connectionPool.putIfAbsent(unresolvedAddress, new ClientPool(numConnectionsPerPeer));
@@ -198,6 +199,7 @@ public class TransportClientFactory implements Closeable {
       throws IOException, InterruptedException {
     logger.debug("Creating new connection to {}", address);
 
+    // todo 20171124
     Bootstrap bootstrap = new Bootstrap();
     bootstrap.group(workerGroup)
       .channel(socketChannelClass)

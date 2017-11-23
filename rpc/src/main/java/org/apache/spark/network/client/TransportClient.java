@@ -219,9 +219,9 @@ public class TransportClient implements Closeable {
   public long sendRpc(ByteBuffer message, final RpcResponseCallback callback) {
     final long startTime = System.currentTimeMillis();
     // todo send rpc message
-    logger.warn("remote rpc called {}",message);
+    logger.trace("client 2. remote rpc called {}",message);
     if (logger.isTraceEnabled()) {
-      logger.trace("Sending RPC to {}", getRemoteAddress(channel));
+      logger.trace("client Sending RPC to {}", getRemoteAddress(channel));
     }
 
     // 构造请求ID

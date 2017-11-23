@@ -83,8 +83,10 @@ public class TransportContext {
         this.conf = conf;
         this.rpcHandler = rpcHandler;
         this.closeIdleConnections = closeIdleConnections;
-        logger.trace("MessageEncoder={}",ENCODER);
-        logger.trace("MessageDecoder={}",DECODER);
+
+        logger.trace("1. start transportContext ....");
+        logger.trace("1. netty handler MessageEncoder={}",ENCODER);
+        logger.trace("1. netty handler MesageDecoder={}",DECODER);
     }
 
     /**
@@ -146,14 +148,23 @@ public class TransportContext {
             RpcHandler channelRpcHandler) {
         try {
             TransportChannelHandler channelHandler = createChannelHandler(channel, channelRpcHandler);
+            TransportFrameDecoder frameDecoder = NettyUtils.createFrameDecoder();
+            IdleStateHandler idleStateHandler = new IdleStateHandler(0, 0, conf.connectionTimeoutMs() / 1000);
             channel.pipeline()
                     .addLast("encoder", ENCODER)
-                    .addLast(TransportFrameDecoder.HANDLER_NAME, NettyUtils.createFrameDecoder())
+                    .addLast(TransportFrameDecoder.HANDLER_NAME, frameDecoder)
                     .addLast("decoder", DECODER)
-                    .addLast("idleStateHandler", new IdleStateHandler(0, 0, conf.connectionTimeoutMs() / 1000))
+                    .addLast("idleStateHandler", idleStateHandler)
                     // NOTE: Chunks are currently guaranteed to be returned in the order of request, but this
                     // would require more logic to guarantee if this were not part of the same event loop.
                     .addLast("handler", channelHandler);
+
+            logger.trace("pipeline is building ....");
+            logger.trace("2.1 init netty pipeline ={}",ENCODER);
+            logger.trace("2.2 init netty pipeline ={}",frameDecoder);
+            logger.trace("2.3 init netty pipeline ={}",DECODER);
+            logger.trace("2.4 init netty pipeline ={}",idleStateHandler);
+            logger.trace("2.5 init netty pipeline ={}",channelHandler);
             return channelHandler;
         } catch (RuntimeException e) {
             logger.error("Error while initializing Netty pipeline", e);
@@ -167,6 +178,8 @@ public class TransportContext {
      * properties (such as the remoteAddress()) may not be available yet.
      */
     private TransportChannelHandler createChannelHandler(Channel channel, RpcHandler rpcHandler) {
+
+        //todo 构造pipeline
         TransportResponseHandler responseHandler = new TransportResponseHandler(channel);
         TransportClient client = new TransportClient(channel, responseHandler);
         TransportRequestHandler requestHandler = new TransportRequestHandler(channel, client,

@@ -51,7 +51,7 @@ private[netty] case class RpcOutboxMessage(
   override def sendWith(client: TransportClient): Unit = {
     this.client = client
 
-    log.warn(s"stry to send message with netty in  TransportClient ")
+    log.warn(s"try to send message with netty in  TransportClient ")
     this.requestId = client.sendRpc(content, this)
   }
 
@@ -155,6 +155,7 @@ private[netty] class Outbox(nettyEnv: NettyRpcEnv, val address: RpcAddress) exte
         if (_client != null) {
 
 
+          logTrace(s"message from outBox start send ")
           message.sendWith(_client)
         } else {
           assert(stopped == true)
@@ -178,10 +179,12 @@ private[netty] class Outbox(nettyEnv: NettyRpcEnv, val address: RpcAddress) exte
   }
 
   private def launchConnectTask(): Unit = {
+    logTrace(s"1. client try to connect remote ... ")
     connectFuture = nettyEnv.clientConnectionExecutor.submit(new Callable[Unit] {
 
       override def call(): Unit = {
         try {
+          logTrace(s"1. client try to connect remote ${address.host} ${address.port} ")
           val _client = nettyEnv.createClient(address)
           outbox.synchronized {
             client = _client

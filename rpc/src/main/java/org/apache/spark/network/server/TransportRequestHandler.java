@@ -77,11 +77,13 @@ public class TransportRequestHandler extends MessageHandler<RequestMessage> {
 
   @Override
   public void channelActive() {
+    logger.trace("channel active ");
     rpcHandler.channelActive(reverseClient);
   }
 
   @Override
   public void channelInactive() {
+    logger.trace("channel  inactive ");
     if (streamManager != null) {
       try {
         streamManager.connectionTerminated(channel);

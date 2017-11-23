@@ -183,7 +183,7 @@ object Utils {
       }
       try {
         val (service, port) = startService(tryPort)
-        log.info(s"Successfully started service$serviceString on port $port.")
+        log.info(s"Successfully started service ${service.getClass.getSimpleName} -> ${serviceName} on port $port.")
         return (service, port)
       } catch {
         case e: Exception if isBindCollision(e) =>

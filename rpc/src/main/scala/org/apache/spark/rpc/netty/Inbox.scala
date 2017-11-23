@@ -37,11 +37,10 @@ private[netty] case class RemoteProcessConnectionError(cause: Throwable, remoteA
 
 /**
   * An inbox that stores messages for an [[RpcEndpoint]] and posts messages to it thread-safely.
+  * 邮件入站 ，发送到适当的[[RpcEndpoint]]
+  * 主要包含入站消息
   */
-private[netty] class Inbox(
-                            val endpointRef: NettyRpcEndpointRef,
-
-
+private[netty] class Inbox(val endpointRef: NettyRpcEndpointRef,
                             val endpoint: RpcEndpoint) {
   inbox =>
   // Give this an alias so we can use it more clearly in closures.
@@ -69,7 +68,8 @@ private[netty] class Inbox(
   }
 
   /**
-    * Process stored messages. 对于入站的消息的处理 依据模式匹配可以对不同消息进行不同的操作
+    * Process stored messages.
+    * 对于入站的消息的处理 依据模式匹配可以对不同消息[[InboxMessage]]进行不同的操作
     */
   def process(dispatcher: Dispatcher): Unit = {
     var message: InboxMessage = null
@@ -79,7 +79,7 @@ private[netty] class Inbox(
       }
       message = messages.poll()
       if (message != null) {
-        log.warn(s"inbox message is ${message.getClass}")
+        log.trace(s" dispatcher inbox's LinkedList[InboxMessage] recieve an inbox message,  is ${message.getClass.getSimpleName}")
         numActiveThreads += 1
       } else {
         return
@@ -87,12 +87,12 @@ private[netty] class Inbox(
     }
     while (true) {
       safelyCall(endpoint) {
+        log.trace(s"${endpoint.getClass.getSimpleName} to proceess the inbox ${message.getClass.getSimpleName}")
         message match {
-
             // rpc 消息
           case RpcMessage(_sender, content, context) =>
             try {
-              log.warn(s" got an rpc message from ${_sender},content=${content.getClass},${context}")
+              log.trace(s" got an rpc message from ${_sender},content=${content.getClass.getSimpleName}")
               endpoint.receiveAndReply(context).applyOrElse[Any, Unit](content, { msg =>
                 throw new RpcException(s"Unsupported message $message from ${_sender}")
 
@@ -131,12 +131,15 @@ private[netty] class Inbox(
             assert(isEmpty, "OnStop should be the last message")
 
           case RemoteProcessConnected(remoteAddress) =>
+            log.trace(s"dispatcher inbox's recieve ${RemoteProcessConnected.getClass.getSimpleName} -> ${remoteAddress} ")
             endpoint.onConnected(remoteAddress)
 
           case RemoteProcessDisconnected(remoteAddress) =>
+            log.trace(s"dispatcher inbox's recieve ${RemoteProcessDisconnected.getClass.getSimpleName} -> ${remoteAddress} ")
             endpoint.onDisconnected(remoteAddress)
 
           case RemoteProcessConnectionError(cause, remoteAddress) =>
+            log.trace(s"dispatcher inbox's recieve ${RemoteProcessConnectionError.getClass.getSimpleName} -> ${remoteAddress} ")
             endpoint.onNetworkError(cause, remoteAddress)
         }
       }

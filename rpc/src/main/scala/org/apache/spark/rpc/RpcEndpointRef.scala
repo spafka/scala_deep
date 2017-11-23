@@ -9,7 +9,7 @@ import scala.reflect.ClassTag
 
 /**
   * A reference for a remote [[RpcEndpoint]]. [[RpcEndpointRef]] is thread-safe.
-  * RpcEndpointRef是一个对RpcEndpoint的远程引用对象，通过它可以向远程的RpcEndpoint端发送消息以进行通信。
+  * RpcEndpointRef是一个对[[RpcEndpoint]]的远程引用对象，通过它可以向远程的[[RpcEndpoint]]端发送消息以进行通信。
   */
 abstract class RpcEndpointRef(conf: RpcConf) extends Serializable  {
 
