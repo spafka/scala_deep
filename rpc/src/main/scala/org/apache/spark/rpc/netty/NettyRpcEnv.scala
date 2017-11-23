@@ -38,7 +38,7 @@ class NettyRpcEnv(
     conf.getInt("spark.rpc.io.threads", 0))
   // 创建Dispatcher，主要用户消息的分发处理
   private val dispatcher: Dispatcher = new Dispatcher(this)
-
+   log.warn(s"构建dispatcher 分发器完毕 初始化线程池，用于收发消息")
   // omit for signature
   private val streamManager = new StreamManager {
     override def getChunk(streamId: Long, chunkIndex: Int) = null
@@ -90,6 +90,8 @@ class NettyRpcEnv(
     // here disable security
     val bootstraps: java.util.List[TransportServerBootstrap] = java.util.Collections.emptyList()
     //通过transportContext启动通信底层的服务端
+
+    log.warn(s"is Server mode start with ${bindAddress},${port}, ${bootstraps}")
     server = transportContext.createServer(bindAddress, port, bootstraps)
     //注册一个RpcEndpointVerifier，对Server进行验证
     dispatcher.registerRpcEndpoint(RpcEndpointVerifier.NAME, new RpcEndpointVerifier(this, dispatcher))
@@ -318,9 +320,11 @@ object NettyRpcEnvFactory extends RpcEnvFactory {
     // Use JavaSerializerInstance in multiple threads is safe. However, if we plan to support
     // KryoSerializer in future, we have to use ThreadLocal to store SerializerInstance
     //     //创建序列化
-    val javaSerializerInstance = new JavaSerializer(conf).newInstance().asInstanceOf[JavaSerializerInstance]
+    val javaSerializerInstance: JavaSerializerInstance= new JavaSerializer(conf).newInstance().asInstanceOf[JavaSerializerInstance]
+
     val nettyEnv = new NettyRpcEnv(conf, javaSerializerInstance, config.bindAddress)
     if (!config.clientMode) {
+      // 一个函数
       val startNettyRpcEnv: Int => (NettyRpcEnv, Int) = { actualPort =>
         nettyEnv.startServer(config.bindAddress, actualPort)
         (nettyEnv, nettyEnv.address.port)

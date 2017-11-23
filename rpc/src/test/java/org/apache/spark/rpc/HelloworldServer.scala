@@ -9,6 +9,7 @@ object HelloworldServer {
     //val host = args(0)
     val host = "localhost"
     val config = RpcEnvServerConfig(new RpcConf(), "hello-server", host, 52345)
+    // 服务端绑定端口，开启服务
     val rpcEnv: RpcEnv = NettyRpcEnvFactory.create(config)
     val helloEndpoint: RpcEndpoint = new HelloEndpoint(rpcEnv)
     rpcEnv.setupEndpoint("hello-service", helloEndpoint)

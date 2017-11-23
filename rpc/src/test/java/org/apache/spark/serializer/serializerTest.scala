@@ -1,6 +1,8 @@
 package org.apache.spark.serializer
 
-import org.apache.spark.{RpcConf}
+import org.apache.spark.RpcConf
+//import org.apache.spark.rpc.SimpleTask
+import org.apache.spark.rpc.deep.FileSerializer
 import org.scalatest.FunSuite
 
 class serializerTest extends  FunSuite{
@@ -21,6 +23,18 @@ class serializerTest extends  FunSuite{
 //      new ContainsPrimitiveClass()))
 //    // enforce class cast
 //    obj.getClass
+  }
+
+
+  test("serializer not with classloder"){
+
+//    val task = new SimpleTask()
+//    FileSerializer.writeObject(task,"task.ser")
+//
+//    val task2 = FileSerializer.readObject("task.ser").asInstanceOf[SimpleTask]
+//    task2.run()
+
+
   }
 }
 
