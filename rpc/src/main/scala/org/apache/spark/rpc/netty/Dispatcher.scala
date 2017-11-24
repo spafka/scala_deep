@@ -60,6 +60,7 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
       endpointRefs.put(data.endpoint, data.ref)
 
       receivers.offer(data) // for the OnStart message
+      log.trace("recieves queen add an endpoint data {},{},{},{}",data,data.name,data.ref.client,data.inbox)
     }
     endpointRef
   }
@@ -201,6 +202,7 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
         while (true) {
           try {
             val data = receivers.take()
+            log.trace("endpointdata queen take and data is {},{},{},{}",data.name,data.endpoint,data.ref,data.inbox)
 
             if (data == PoisonPill) {
               // Put PoisonPill back so that other MessageLoops can see it.
@@ -208,6 +210,7 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
               receivers.offer(PoisonPill)
               return
             }
+
             data.inbox.process(Dispatcher.this)
           } catch {
             case NonFatal(e) => log.error(e.getMessage, e)

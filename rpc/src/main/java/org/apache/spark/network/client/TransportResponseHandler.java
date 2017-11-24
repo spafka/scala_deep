@@ -139,6 +139,8 @@ public class TransportResponseHandler extends MessageHandler<ResponseMessage> {
   @Override
   public void handle(ResponseMessage message) throws Exception {
     if (message instanceof ChunkFetchSuccess) {
+      logger.trace("channel got an ResponseMessage furthur detail is  >> ChunkFetchSuccess ");
+
       ChunkFetchSuccess resp = (ChunkFetchSuccess) message;
       ChunkReceivedCallback listener = outstandingFetches.get(resp.streamChunkId);
       if (listener == null) {
@@ -151,6 +153,8 @@ public class TransportResponseHandler extends MessageHandler<ResponseMessage> {
         resp.body().release();
       }
     } else if (message instanceof ChunkFetchFailure) {
+
+      logger.trace("channel got an ResponseMessage furthur detail is  >> ChunkFetchFailure ");
       ChunkFetchFailure resp = (ChunkFetchFailure) message;
       ChunkReceivedCallback listener = outstandingFetches.get(resp.streamChunkId);
       if (listener == null) {
@@ -162,6 +166,8 @@ public class TransportResponseHandler extends MessageHandler<ResponseMessage> {
           "Failure while fetching " + resp.streamChunkId + ": " + resp.errorString));
       }
     } else if (message instanceof RpcResponse) {
+
+      logger.trace("channel got an ResponseMessage furthur detail is  >> RpcResponse ");
       RpcResponse resp = (RpcResponse) message;
       RpcResponseCallback listener = outstandingRpcs.get(resp.requestId);
       if (listener == null) {
@@ -176,6 +182,8 @@ public class TransportResponseHandler extends MessageHandler<ResponseMessage> {
         }
       }
     } else if (message instanceof RpcFailure) {
+
+      logger.trace("channel got an ResponseMessage furthur detail is  >>RpcFailure ");
       RpcFailure resp = (RpcFailure) message;
       RpcResponseCallback listener = outstandingRpcs.get(resp.requestId);
       if (listener == null) {

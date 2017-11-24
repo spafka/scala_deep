@@ -115,9 +115,13 @@ public class TransportChannelHandler extends ChannelInboundHandlerAdapter {
 
   @Override
   public void channelRead(ChannelHandlerContext ctx, Object request) throws Exception {
+
+    // todo 判断接收到的消息类型
     if (request instanceof RequestMessage) {
+      logger.trace("channel got an RequestMessage .. ");
       requestHandler.handle((RequestMessage) request);
     } else if (request instanceof ResponseMessage) {
+      logger.trace("channel got an ResponseMessage .. ");
       responseHandler.handle((ResponseMessage) request);
     } else {
       ctx.fireChannelRead(request);

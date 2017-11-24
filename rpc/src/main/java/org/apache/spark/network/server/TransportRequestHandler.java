@@ -97,12 +97,16 @@ public class TransportRequestHandler extends MessageHandler<RequestMessage> {
   @Override
   public void handle(RequestMessage request) {
     if (request instanceof ChunkFetchRequest) {
+      logger.trace("channel got an RequestMessage and more detail >> is ChunkFetchRequest ");
       processFetchRequest((ChunkFetchRequest) request);
     } else if (request instanceof RpcRequest) {
+      logger.trace("channel got an RequestMessage and more detail >> is RpcRequest ");
       processRpcRequest((RpcRequest) request);
     } else if (request instanceof OneWayMessage) {
+      logger.trace("channel got an RequestMessage and more detail >> is OneWayMessage");
       processOneWayMessage((OneWayMessage) request);
     } else if (request instanceof StreamRequest) {
+      logger.trace("channel got an RequestMessage and more detail >> is StreamRequest");
       processStreamRequest((StreamRequest) request);
     } else {
       throw new IllegalArgumentException("Unknown request type: " + request);

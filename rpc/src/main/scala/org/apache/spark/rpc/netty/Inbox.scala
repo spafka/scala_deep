@@ -86,6 +86,7 @@ private[netty] class Inbox(val endpointRef: NettyRpcEndpointRef,
       }
     }
     while (true) {
+      log.debug("whiletrue")
       safelyCall(endpoint) {
         log.trace(s"${endpoint.getClass.getSimpleName} to proceess the inbox ${message.getClass.getSimpleName}")
         message match {
