@@ -13,7 +13,7 @@ public class NioClient {
         try {
             socketChannel = SocketChannel.open();
             socketChannel.configureBlocking(false);
-            socketChannel.connect(new InetSocketAddress("127.0.0.1", 5555));
+            socketChannel.connect(new InetSocketAddress("127.0.0.1", 9200));
 
             if (socketChannel.finishConnect()) {
                 int i = 0;

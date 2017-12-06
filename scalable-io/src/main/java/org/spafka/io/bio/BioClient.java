@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 public class BioClient {
 
 	public static void main(String[] args) {
-		int port = 6666;
+		int port = 9200;
 		Socket socket = null;
 		try {
 			socket = new Socket("127.0.0.1", port);
