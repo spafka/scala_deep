@@ -62,12 +62,13 @@ private[kafka] class Acceptor(val endPoint: EndPoint, val sendBufferSize: Int,
   //1 打开路复用器
   private val nioTcpSelector = NSelector.open()
 
+  // 监听端口
   val serverChannel = openServerSocket(endPoint.host, endPoint.port)
 
   this.synchronized {
     processors.foreach { processor =>
-      logInfo(s"$processor started")
       new Thread(processor, "processor").start()
+      logInfo(s"processor[${processor.id}] started")
     }
   }
 
@@ -80,7 +81,7 @@ private[kafka] class Acceptor(val endPoint: EndPoint, val sendBufferSize: Int,
     serverChannel.register(nioTcpSelector, SelectionKey.OP_ACCEPT)
     // acceptor 运行完成
     startupComplete()
-    logInfo("acceptor running!!!")
+    logInfo(s"all acceptor running  ${processors}")
     try {
       // 当前处理器
       var currentProcessor = 0
@@ -98,19 +99,21 @@ private[kafka] class Acceptor(val endPoint: EndPoint, val sendBufferSize: Int,
                 //3 进行遍历
                 val key = iter.next
                 //4 直接移除
-                iter.remove()
+                // iter.remove()
                 if (key.isAcceptable) {
                   logInfo(s"acceped connection $key on processor idx $currentProcessor")
-
                   accept(key, processors(currentProcessor))
                 } else
                   throw new IllegalStateException("Unrecognized key state for acceptor thread.")
                 // round robin to the next processor thread
                 currentProcessor = (currentProcessor + 1) % processors.length
+                logInfo(s" currentProcessor is ${currentProcessor}")
               } catch {
                 case e: Throwable => logError("Error while accepting connection", e)
               }
             }
+
+            wakeup()
           }
         }
         catch {
@@ -171,8 +174,9 @@ private[kafka] class Acceptor(val endPoint: EndPoint, val sendBufferSize: Int,
       socketChannel.socket().setTcpNoDelay(true)
       socketChannel.socket().setKeepAlive(true)
       socketChannel.socket().setSendBufferSize(sendBufferSize)
-
       processor.accept(socketChannel)
+
+      logInfo(s"${processor.id} accepted an channel on ${socketChannel.getRemoteAddress}" )
     } catch {
       case e: TooManyConnectionsException =>
         logInfo("Rejected connection from %s, address already has the configured maximum of %d connections.".format(e.ip, e.count))
@@ -185,13 +189,11 @@ private[kafka] class Acceptor(val endPoint: EndPoint, val sendBufferSize: Int,
   }
 }
 
-private[kafka] class Processor(id:Int) extends AbstractServerThread() {
+private[kafka] class Processor(val id: Int) extends AbstractServerThread() {
 
-
-  private val readBuf = ByteBuffer.allocate(1024)
-  private val newConnections = new ConcurrentLinkedQueue[SocketChannel]()
-
-  private val inflightResponses = mutable.Map[String, RequestChannel.Response]()
+  private val readBuf: ByteBuffer = ByteBuffer.allocate(1024)
+  private val newConnections: ConcurrentLinkedQueue[SocketChannel] = new ConcurrentLinkedQueue[SocketChannel]()
+  private val inflightResponses: mutable.Map[String, RequestChannel.Response] = mutable.Map[String, RequestChannel.Response]()
 
   // 多路复用选择器
   private var selector: NSelector = getSelector
@@ -202,9 +204,8 @@ private[kafka] class Processor(id:Int) extends AbstractServerThread() {
   def accept(socketChannel: SocketChannel) {
     newConnections.add(socketChannel)
     logInfo(s"$this add socketChannel to queen and size is ${newConnections.size()} ")
-    // wakeup()
+    wakeup()
   }
-
 
   private def channelFor(key: SelectionKey) = key.channel.asInstanceOf[SocketChannel]
 
@@ -274,10 +275,11 @@ private[kafka] class Processor(id:Int) extends AbstractServerThread() {
   }
 
   def write(key: SelectionKey): Unit = {
-   log.info(s"write to client ${selector.selectedKeys()}")
+    log.info(s"write to client ${selector.selectedKeys()}")
   }
 
   override def run() {
+
     startupComplete()
 
     // null point Exception
@@ -296,8 +298,8 @@ private[kafka] class Processor(id:Int) extends AbstractServerThread() {
           val key = iter.next
           iter.remove()
           if (key.isReadable) read(key)
-//          http://www.jianshu.com/p/ff1432f5a14b
-         else if (key.isWritable)  write(key)
+          //          http://www.jianshu.com/p/ff1432f5a14b
+          else if (key.isWritable) write(key)
           else if (!key.isValid) close(channelFor(key))
           else throw new IllegalStateException("Unrecognized key state for processor thread.")
 
@@ -310,11 +312,10 @@ private[kafka] class Processor(id:Int) extends AbstractServerThread() {
   }
 
 
-
-
   override def wakeup(): Unit = {
     getSelector.wakeup()
   }
+
   override def close(channel: SocketChannel) {
     if (channel != null) {
       logInfo("Closing connection from " + channel.socket.getRemoteSocketAddress())

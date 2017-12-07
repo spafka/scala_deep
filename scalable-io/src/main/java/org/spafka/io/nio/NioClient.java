@@ -26,8 +26,6 @@ public class NioClient {
                     while (buffer.hasRemaining()) {
                         socketChannel.write(buffer);
                     }
-
-
                 }
             }
         } catch (IOException | InterruptedException e) {
