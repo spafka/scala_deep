@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package example.avro;
+package com.twitter.bijection;
 
 import com.twitter.bijection.Injection;
 import com.twitter.bijection.avro.GenericAvroCodecs;
+import example.avro.User;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
 
 
+
+
 /**
  *  avro 使用 twitter bijection Demo
  */
-public class Avroz {
+public class AvroUseAvsc {
 
 
     public static void main(String[] args) {

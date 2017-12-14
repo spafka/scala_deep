@@ -1,8 +1,3 @@
-import com.twitter.bijection.Injection
-import com.twitter.bijection.avro.GenericAvroCodecs
-import org.apache.avro.Schema
-import org.apache.avro.generic.{GenericData, GenericRecord}
-
 /*
  * Copyright 2017 Saxon State and University Library Dresden (SLUB)
  *
@@ -18,6 +13,12 @@ import org.apache.avro.generic.{GenericData, GenericRecord}
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.twitter.bijection
+
+import com.twitter.bijection.avro.GenericAvroCodecs
+import org.apache.avro.Schema
+import org.apache.avro.generic.{GenericData, GenericRecord}
 
 object Avroz {
 
@@ -36,7 +37,6 @@ object Avroz {
     avroRecord.put("int1", 1)
 
     val injected=  injection.apply(avroRecord)
-
     val ori=  injection.invert(injected)
 
     ori.get
