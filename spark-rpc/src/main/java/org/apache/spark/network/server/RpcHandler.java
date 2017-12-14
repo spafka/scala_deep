@@ -27,6 +27,8 @@ import java.nio.ByteBuffer;
 
 /**
  * Handler for sendRPC() messages sent by {@link org.apache.spark.network.client.TransportClient}s.
+ * netty 与sparkRpc之间的耦合模块 , 对于netty接收到的事件，交给dispatcher处理。
+ *
  */
 public abstract class RpcHandler {
 

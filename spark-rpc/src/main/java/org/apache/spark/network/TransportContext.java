@@ -49,6 +49,8 @@ import java.util.List;
  * The TransportServer and TransportClientFactory both create a TransportChannelHandler for each
  * channel. As each TransportChannelHandler contains a TransportClient, this enables server
  * processes to send messages back to the client on an existing channel.
+ *
+ * todo 传输上下文，可以构造远程channel，既可以构造服务端，也可以构造客户端，rpchandler是其中最主要的，可以对其中的消息做适配。
  */
 public class TransportContext {
     private static final Logger logger = LoggerFactory.getLogger(org.apache.spark.network.TransportContext.class);

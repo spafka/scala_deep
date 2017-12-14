@@ -127,7 +127,7 @@ class NettyRpcEnv(val conf: RpcConf,
 
   private def postToOutbox(receiver: NettyRpcEndpointRef, message: OutboxMessage): Unit = {
     if (receiver.client != null) {
-      log.warn("stry to send message with netty")
+      log.warn(s"try to send message with netty client ${receiver.client}")
       message.sendWith(receiver.client)
     } else {
       require(receiver.address != null,
@@ -324,7 +324,7 @@ object NettyRpcEnvFactory extends RpcEnvFactory {
     val nettyEnv = new NettyRpcEnv(conf, javaSerializerInstance, config.bindAddress)
     if (!config.clientMode) {
       // 一个函数
-      val startNettyRpcEnv: Int => (NettyRpcEnv, Int) = { actualPort =>
+     def startNettyRpcEnv: Int => (NettyRpcEnv, Int) = { actualPort =>
         nettyEnv.startServer(config.bindAddress, actualPort)
         (nettyEnv, nettyEnv.address.port)
       }
