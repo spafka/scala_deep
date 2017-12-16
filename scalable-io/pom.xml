@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>scala</artifactId>
 		<groupId>org.spafka</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-releases</version>
 	</parent>
 
 	<artifactId>scalable-io</artifactId>
