@@ -32,6 +32,7 @@ class Rdd[T: ClassTag] {
   //  }
 
   def mkList(elems: T*) = {
+
         var clazz: ClassTag[T] = implicitly[ClassTag[T]] //evidence
         if (classOf[String] == clazz.runtimeClass) {
           println("string")
@@ -46,7 +47,7 @@ class Rdd[T: ClassTag] {
 
 object ClassTagApp extends App {
 
-  private val stringRdd = new Rdd[String]
+  private val stringRdd: Rdd[String] = new Rdd[String]
   private val stringArrz = stringRdd.mkArray("1", "2", "3")
   private val stringListz = stringRdd.mkList("1", "2", "3")
   private val stringSet = stringRdd.mkSet("1", "2", "3")
