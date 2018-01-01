@@ -128,20 +128,19 @@
 
 主线程监听的selectKey 交给reader线程处理
 ```java
-void doAccept(SelectionKey key) throws IOException,  OutOfMemoryError {
+    void doAccept(SelectionKey key) throws IOException,  OutOfMemoryError {
       Connection c = null;
       ServerSocketChannel server = (ServerSocketChannel) key.channel();
       SocketChannel channel;
       while ((channel = server.accept()) != null) {
         channel.configureBlocking(false);
         channel.socket().setTcpNoDelay(tcpNoDelay);
-        // fixme 轮询，判断交给哪个reader线程
         Reader reader = getReader();
         try {
           reader.startAdd();
           SelectionKey readKey = reader.registerChannel(channel);
           c = new Connection(readKey, channel, System.currentTimeMillis());
-          // 构造一个collection，主要包含socketChannel，call的Byteful，附加在key上
+          readKey.attach(c);
           synchronized (connectionList) {
             connectionList.add(numConnections, c);
             numConnections++;
@@ -156,6 +155,7 @@ void doAccept(SelectionKey key) throws IOException,  OutOfMemoryError {
 
       }
     }
+
 ```
 
 每个read线程对于新进来的selectkey (socketChannel) ，处理其中的connection
