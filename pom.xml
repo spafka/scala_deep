@@ -21,6 +21,7 @@
         <module>scala-in-depth</module>
         <module>scalable-io</module>
         <module>bijection</module>
+        <module>hadoop-rpc</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -7,3 +7,5 @@ org/spafka/scala/implicitz/defaultValue.scala
 ##2. 界定 http://www.jianshu.com/p/c8835e27adba for more detail讲的非常棒
 
 ##3. classTag 对于构建泛型数组是必须的，必须捕获运行时的泛型实例。而对于普通的泛型，classtag也能根据运行时的状态，做一些额外的'事'
+
+[Hadoop Rpc](https://github.com/spafka/spark_deep/blob/master/hadoop-rpc/readme.md)
