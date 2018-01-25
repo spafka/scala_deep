@@ -48,7 +48,7 @@ object Md2Pojo {
   }
 
   def main(args: Array[String]): Unit = {
-    md2pojo("page\tint\t是\t-\t页码\t2\npageSize\tint\t是\t-\t每页数据条数\t20\nstartTime\tstring\t否\t-\t开始时间\t2017-01-01\nendTime\tstring\t否\t-\t结束时间\t2017-01-01\noperateMode\tstring\t否\t-\t操作模块\t0商户号管理、1商户管理、2代理商管理 3代理商迁移\noperator\tint\t否\t-\t操作人id\t1")
+    md2pojo("idName\tString\t是\t-\t姓名\t仇楚云\nacctId\tString\t是\t-\t银行卡号\t14567656789909\nbankId\tint\t是\t-\t银行唯一ID\t1231231\nbankName\tint\t是\t-\t银行名称\t中国银行\nphone\tString\t是\t-\t银行卡预留手机号\t15757176754\ntoken\tstring\t是\t-\t验证码token\tdfasdfdasfdas324132434324\ncode\tstring\t是\t-\t短信验证码\t232398")
   }
 
 }

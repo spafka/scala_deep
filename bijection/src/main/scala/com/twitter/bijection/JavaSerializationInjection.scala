@@ -17,9 +17,12 @@ limitations under the License.
 package com.twitter.bijection
 
 import java.io._
-import scala.util.{ Failure, Try }
+import java.util.Date
+
+import scala.util.{Failure, Try}
 import scala.util.control.Exception.allCatch
 import com.twitter.bijection.Inversion.attempt
+
 import scala.reflect.ClassTag
 
 object JavaSerializationInjection extends Serializable {
@@ -29,6 +32,19 @@ object JavaSerializationInjection extends Serializable {
   def apply[T <: Serializable](implicit ct: ClassTag[T]): JavaSerializationInjection[T] = {
     val cls = ct.runtimeClass.asInstanceOf[Class[T]]
     new JavaSerializationInjection[T](cls)
+  }
+
+  def main(args: Array[String]): Unit = {
+
+   val d= new Date()
+
+    val bytes = JavaSerializationInjection[Date].apply(d)
+
+    val value = JavaSerializationInjection[Date].invert(bytes).get
+
+    println(value)
+
+
   }
 }
 
