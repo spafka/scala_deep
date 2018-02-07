@@ -2,6 +2,8 @@ package com.madhu.mesos
 
 /**
  * Created by madhu on 30/9/14.
+  *
+  * @see http://blog.madhukaraphatak.com/mesos-helloworld-scala/
  */
 
 import org.apache.mesos.MesosSchedulerDriver
