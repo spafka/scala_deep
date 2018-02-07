@@ -10,7 +10,12 @@
         <version>18</version>
     </parent>
 
-
+    <repositories>
+        <repository>
+            <id>centralllll</id>
+            <url>http://downloads.mesosphere.io/maven</url>
+        </repository>
+    </repositories>
     <groupId>org.spafka</groupId>
     <artifactId>scala</artifactId>
     <packaging>pom</packaging>
@@ -24,6 +29,7 @@
         <module>hadoop-rpc</module>
         <module>clojure</module>
         <module>config</module>
+        <module>mesos</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
