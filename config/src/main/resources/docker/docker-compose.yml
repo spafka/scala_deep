@@ -27,12 +27,3 @@ services:
        ports:
              - "6379:6379"
 
-  mysql:
-       image: mysql:5.7
-       restart: always
-       environment:
-             MYSQL_ROOT_PASSWORD: root
-       volumes:
-         - /Users/spafka/mysql:/var/lib/mysql
-       ports:
-         - "3306:3306"
