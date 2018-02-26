@@ -30,6 +30,7 @@
         <module>clojure</module>
         <module>config</module>
         <module>mesos</module>
+        <module>spark-core</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
