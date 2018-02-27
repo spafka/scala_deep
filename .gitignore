@@ -125,6 +125,7 @@ hs_err_pid*
 
 *.DS_Store
 
-src/test/
 
-/scala-in-depth-source/
+
+
+/Learning-Spark-SQL/
