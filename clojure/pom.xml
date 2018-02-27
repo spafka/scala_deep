@@ -42,7 +42,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <sourceDirectories>
-                        <sourceDirectory>src</sourceDirectory>
+                        <sourceDirectory>src/main/clojure</sourceDirectory>
                     </sourceDirectories>
                 </configuration>
                 <executions>

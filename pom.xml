@@ -31,6 +31,7 @@
         <module>config</module>
         <module>mesos</module>
         <module>spark-core</module>
+        <module>spark-sql</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,20 +40,8 @@
         <scala.version>2.11.11</scala.version>
         <slf4j.version>1.7.16</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
+        <spark.version>2.4.0-SNAPSHOT</spark.version>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <url>https://nexus-server.51fubei.com/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>https://nexus-server.51fubei.com/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-
     <dependencies>
 
         <!-- scala -->

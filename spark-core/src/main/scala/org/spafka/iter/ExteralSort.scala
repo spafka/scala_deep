@@ -15,7 +15,7 @@ import scala.util.Random
   * @tparam V
   * @tparam C
   */
-class ExternalSorter[K, V, C](implicit ordering: Option[Ordering[K]] = None) {
+class ExternalSorter [K, V, C](implicit ordering: Option[Ordering[K]] = None) {
 
   /**
     * Merge-sort a sequence of (K, C) iterators using a given a comparator for the keys.
