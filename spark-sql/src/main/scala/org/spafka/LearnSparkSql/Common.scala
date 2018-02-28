@@ -1,7 +1,6 @@
 package org.spafka.LearnSparkSql
 
 import org.apache.spark.sql.SparkSession
-import org.spafka.LearnSparkSql.charter1.UdfExample.spark
 
 object Common {
 
@@ -18,8 +17,15 @@ object Common {
     spark.conf.set("spark.executor.cores", "2")
     spark.conf.set("spark.executor.memory", "4g")
     // Must import this 2 implict rdd 2 df(s)
-    import spark.implicits._
     spark
   }
+
+  def benchmark(name: String)(f: => Unit) {
+    val startTime = System.nanoTime
+    f
+    val endTime = System.nanoTime
+    println(s"Time taken in $name: " + (endTime - startTime).toDouble / 1000000000 + "seconds")
+  }
+
 
 }
