@@ -14,8 +14,8 @@ object Common {
       .master(master)
       .appName("Spark SQL DataFrame example")
       .getOrCreate()
-    spark.conf.set("spark.executor.cores", "2")
-    spark.conf.set("spark.executor.memory", "4g")
+//    spark.conf.set("spark.executor.cores", "2")
+//    spark.conf.set("spark.executor.memory", "4g")
     // Must import this 2 implict rdd 2 df(s)
     spark
   }
