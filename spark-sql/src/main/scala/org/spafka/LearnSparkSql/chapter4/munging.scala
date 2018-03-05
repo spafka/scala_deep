@@ -28,16 +28,25 @@ object munging {
       .map(_.split(";"))
       .map(p => HouseholdEPC(p(0).trim(), p(1).trim(), p(2).toDouble, p(3).toDouble, p(4).toDouble, p(5).toDouble, p(6).toDouble, p(7).toDouble, p(8).toDouble))
     val hhEPCDF = hhEPCClassRdd.toDF()
+    hhEPCDF.printSchema()
     hhEPCDF.show(5)
     hhEPCDF.count()
 
     //Code Computing basic statistics and aggregations section
     hhEPCDF.describe().show()
-    hhEPCDF.describe().select($"summary", $"gap", $"grp", $"voltage", $"gi", $"sm_1", $"sm_2", $"sm_3", round($"gap", 4).name("rgap"), round($"grp", 4).name("rgrp"), round($"voltage", 4).name("rvoltage"), round($"gi", 4).name("rgi"), round($"sm_1", 4).name("rsm_1"), round($"sm_2", 4).name("rsm_2"), round($"sm_3", 4).name("rsm_3")).drop("gap", "grp", "voltage", "gi", "sm_1", "sm_2", "sm_3").show()
+    hhEPCDF.describe().select($"summary", $"gap", $"grp", $"voltage", $"gi", $"sm_1", $"sm_2", $"sm_3",
+      round($"gap", 4).name("rgap"), round($"grp", 4).name("rgrp"), round($"voltage", 4).name("rvoltage"),
+      round($"gi", 4).name("rgi"), round($"sm_1", 4).name("rsm_1"), round($"sm_2", 4).name("rsm_2"),
+      round($"sm_3", 4).name("rsm_3")).drop("gap", "grp", "voltage", "gi", "sm_1", "sm_2", "sm_3").show()
     val numDates = hhEPCDF.groupBy("date").agg(countDistinct("date")).count()
 
     //Code for Augmenting the dataset section
-    val hhEPCDatesDf = hhEPCDF.withColumn("dow", from_unixtime(unix_timestamp($"date", "dd/MM/yyyy"), "EEEEE")).withColumn("day", dayofmonth(to_date(unix_timestamp($"date", "dd/MM/yyyy").cast("timestamp")))).withColumn("month", month(to_date(unix_timestamp($"date", "dd/MM/yyyy").cast("timestamp")))).withColumn("year", year(to_date(unix_timestamp($"date", "dd/MM/yyyy").cast("timestamp"))))
+    val hhEPCDatesDf =
+      hhEPCDF
+        .withColumn("dow", from_unixtime(unix_timestamp($"date", "dd/MM/yyyy"), "EEEEE"))
+        .withColumn("day", dayofmonth(to_date(unix_timestamp($"date", "dd/MM/yyyy").cast("timestamp"))))
+        .withColumn("month", month(to_date(unix_timestamp($"date", "dd/MM/yyyy").cast("timestamp"))))
+        .withColumn("year", year(to_date(unix_timestamp($"date", "dd/MM/yyyy").cast("timestamp"))))
     hhEPCDatesDf.show(5)
 
     //Code for Executing other miscellaneous processing steps section
