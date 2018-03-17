@@ -1,9 +1,11 @@
 package org.spafka.LearnSparkSql
 
-import org.apache.spark.internal.Logging
-import org.apache.spark.sql.internal.SQLConf.buildConf
+import org.slf4j.LoggerFactory
 
-object TungstenBenchMark extends Logging{
+
+object TungstenBenchMark{
+
+  val logger=LoggerFactory.getLogger(TungstenBenchMark.getClass)
 
   import Common.benchmark
   def main(args: Array[String]): Unit = {
@@ -12,9 +14,7 @@ object TungstenBenchMark extends Logging{
     val spark = Common.spark
 
 
-
-
-    logInfo(
+    logger.info(
       s"""
          | SQLConf.scala in SPARK2.*
          |  val WHOLESTAGE_CODEGEN_ENABLED = buildConf("spark.sql.codegen.wholeStage")

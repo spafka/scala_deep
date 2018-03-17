@@ -35,9 +35,14 @@ object munging {
     //Code Computing basic statistics and aggregations section
     hhEPCDF.describe().show()
     hhEPCDF.describe().select($"summary", $"gap", $"grp", $"voltage", $"gi", $"sm_1", $"sm_2", $"sm_3",
-      round($"gap", 4).name("rgap"), round($"grp", 4).name("rgrp"), round($"voltage", 4).name("rvoltage"),
-      round($"gi", 4).name("rgi"), round($"sm_1", 4).name("rsm_1"), round($"sm_2", 4).name("rsm_2"),
-      round($"sm_3", 4).name("rsm_3")).drop("gap", "grp", "voltage", "gi", "sm_1", "sm_2", "sm_3").show()
+      round($"gap", 4).name("rgap"),
+      round($"grp", 4).name("rgrp"),
+      round($"voltage", 4).name("rvoltage"),
+      round($"gi", 4).name("rgi"),
+      round($"sm_1", 4).name("rsm_1"),
+      round($"sm_2", 4).name("rsm_2"),
+      round($"sm_3", 4).name("rsm_3"))
+      .drop("gap", "grp", "voltage", "gi", "sm_1", "sm_2", "sm_3").show()
     val numDates = hhEPCDF.groupBy("date").agg(countDistinct("date")).count()
 
     //Code for Augmenting the dataset section
