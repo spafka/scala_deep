@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
 
-        String add = "1 + 2 + 3 * 4+ 6 / 2";
+        String add = "1 + 2 + 3 * 4 + 6 / 2";
 
         ANTLRInputStream input = new ANTLRInputStream(add);
 

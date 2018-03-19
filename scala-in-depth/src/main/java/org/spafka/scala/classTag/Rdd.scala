@@ -37,10 +37,12 @@ class Rdd[T: ClassTag] {
         if (classOf[String] == clazz.runtimeClass) {
           println("string")
         }
+
     elems
   }
 
   def mkSet(elems: T*): Set[T] = {
+
     Set(elems: _*)
   }
 }
