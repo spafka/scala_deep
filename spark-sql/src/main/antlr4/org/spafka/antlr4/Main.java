@@ -22,6 +22,9 @@ public class Main {
         ParseTree tree = parser.prog();                      // 生成语法树
         MyExprVisitor visitor = new MyExprVisitor();
         visitor.visit(tree);
+
+        tree.toStringTree();
+
     }
 
 }
