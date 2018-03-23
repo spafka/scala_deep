@@ -1,4 +1,4 @@
-package org.spafka.LearnSparkSql
+package org.apache.spafka.sql
 
 import org.apache.spark.sql.Dataset
 
@@ -38,5 +38,7 @@ object PeopleDemo {
 
     Thread.sleep(Int.MaxValue)
   }
+
+
 
 }
