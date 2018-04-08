@@ -30,7 +30,7 @@ import org.apache.spark.sql.types._
 object SimplePerfTest {
   def main(args: Array[String]) = {
     val sparkConf = new SparkConf().setAppName("simple-perf-test")
-    val sparkSession = SparkSession.builder().enableHiveSupport().getOrCreate()
+    val sparkSession = SparkSession.builder().master("local[*]").enableHiveSupport().getOrCreate()
     val sc = sparkSession.sparkContext
     val scalingFactor = if (args.length > 0) args(0).toLong else 100L
     val size = if (args.length > 1) args(1).toInt else 50
