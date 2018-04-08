@@ -11,15 +11,18 @@
 
     <artifactId>kafka</artifactId>
     <version>1.0-releases</version>
+    <properties>
+        <hbase.version>1.2.1</hbase.version>
+    </properties>
 
 
     <dependencies>
 
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>0.10.2.0</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.apache.kafka</groupId>-->
+        <!--<artifactId>kafka-clients</artifactId>-->
+        <!--<version>0.10.2.0</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
@@ -68,6 +71,57 @@
             <artifactId>scala-logging_2.11</artifactId>
             <version>3.8.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.scalikejdbc/scalikejdbc -->
+        <dependency>
+            <groupId>org.scalikejdbc</groupId>
+            <artifactId>scalikejdbc_2.11</artifactId>
+            <version>3.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-common</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-hadoop2-compat</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-protocol</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>bijection-avro_2.11</artifactId>
+            <version>0.9.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.twitter/bijection-protobuf -->
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>bijection-protobuf_2.11</artifactId>
+            <version>0.9.6</version>
+        </dependency>
+
+
+
     </dependencies>
 
 </project>
