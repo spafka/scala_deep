@@ -2,13 +2,16 @@ package org.spafka.streaming.kafka
 
 import com.twitter.bijection.JavaSerializationInjection
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import redis.clients.jedis.{Jedis, JedisPool}
 
+
 object EosRedis {
+
 
   def main(args: Array[String]): Unit = {
 
@@ -25,9 +28,8 @@ object EosRedis {
       "enable.auto.commit" -> (false: java.lang.Boolean),
       "auto.offset.reset" -> "none")
 
-    val conf = new SparkConf().setAppName("ExactlyOnce").setIfMissing("spark.master", "local[2]")
+    val conf = new SparkConf().setAppName("ExactlyOnce").setIfMissing("spark.master", "local[*]")
     val ssc = new StreamingContext(conf, Seconds(5))
-
 
     /**
       * Internal Redis client for managing Redis connection {@link Jedis} based on {@link RedisPool}
@@ -72,10 +74,10 @@ object EosRedis {
     val maxTotal = 10
     val maxIdle = 10
     val minIdle = 1
-    val redisHost = "10.10.4.130"
+    val redisHost = "localhost"
     val redisPort = 6379
     val redisTimeout = 30000
-    val dbIndex = 1
+    val dbIndex = 0
     InternalRedisClient.makePool(redisHost, redisPort, redisTimeout, maxTotal, maxIdle, minIdle)
 
 
@@ -85,17 +87,18 @@ object EosRedis {
     val resource: Jedis = pool.getResource
 
 
-    case class PartOffSetTopic(topic: String, part: Int, offset: Long)
+    case class PartOffSetTopic(topic: TopicPartition, part: Int, offset: Long)
     case class info(storeId: Long, account: BigDecimal)
 
+    val tpoffset: Map[TopicPartition, Long] = Map(new TopicPartition("1", 1) -> 1L)
 
     val bytes = resource.get("").getBytes()
     val partOffSetTopic: PartOffSetTopic = JavaSerializationInjection[PartOffSetTopic].invert(bytes).getOrElse(null)
 
-
     val messages = KafkaUtils.createDirectStream[String, String](ssc,
       LocationStrategies.PreferConsistent,
-      ConsumerStrategies.Assign[String, String](partOffSetTopic.keys, kafkaParams, fromOffsets))
+      ConsumerStrategies.Assign[String, String](tpoffset.keys, kafkaParams, tpoffset))
+
 
   }
 

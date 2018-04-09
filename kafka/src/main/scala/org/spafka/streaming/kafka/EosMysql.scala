@@ -22,7 +22,11 @@ object EosMysql {
 
   private val logger: Logger = Logger[EosMysql]
   def main(args: Array[String]): Unit = {
-    val brokers = "localhost:9092"
+
+
+    StreamingExamples.setStreamingLogLevels()
+
+    val brokers = "localhost:9092,localhost:9093,localhost:9094"
     val topic = "alog"
 
     val kafkaParams = Map[String, Object](
@@ -35,10 +39,10 @@ object EosMysql {
 
     ConnectionPool.singleton("jdbc:mysql://localhost:3306/spark", "root", "root")
 
-    val conf = new SparkConf().setAppName("ExactlyOnce").setIfMissing("spark.master", "local[2]")
+    val conf = new SparkConf().setAppName("ExactlyOnce").setIfMissing("spark.master", "local[*]")
     val ssc = new StreamingContext(conf, Seconds(5))
 
-    val fromOffsets = DB.readOnly { implicit session =>
+    val fromOffsets: Map[TopicPartition, Long] = DB.readOnly { implicit session =>
       sql"""
       select `partition`, offset from kafka_offset
       where topic = ${topic}
@@ -47,13 +51,18 @@ object EosMysql {
       }.list.apply().toMap
     }
 
+    println(s"offset =>${Thread.currentThread().getName} ${fromOffsets}")
+
     val messages = KafkaUtils.createDirectStream[String, String](ssc,
       LocationStrategies.PreferConsistent,
       ConsumerStrategies.Assign[String, String](fromOffsets.keys, kafkaParams, fromOffsets))
 
     messages.foreachRDD { rdd =>
-      val offsetRanges = rdd.asInstanceOf[HasOffsetRanges].offsetRanges
+      val offsetRanges: Array[OffsetRange] = rdd.asInstanceOf[HasOffsetRanges].offsetRanges
+
       val result = processLogs(rdd).collect()
+
+      println(s"result=> ${Thread.currentThread().getName} ${result}")
 
       DB.localTx { implicit session =>
         result.foreach { case (time, count) =>
@@ -65,23 +74,15 @@ object EosMysql {
         }
 
         offsetRanges.foreach { offsetRange =>
-//          sql"""
-//          insert ignore into kafka_offset (topic, `partition`, offset)
-//          value (${topic}, ${offsetRange.partition}, ${offsetRange.fromOffset})
-//          """.update.apply()
-
           val value =
             sql"""
           update kafka_offset set offset = ${offsetRange.untilOffset}
           where topic = ${topic} and `partition` = ${offsetRange.partition}
           and offset = ${offsetRange.fromOffset}
           """
-
           val affectedRows = value
             .update.apply()
 
-
-          println(affectedRows)
           if (affectedRows != 1) {
             throw new SparkException("",null);
           }
@@ -90,11 +91,26 @@ object EosMysql {
     }
 
     ssc.start()
+
+    //start() 将在幕后启动 JobScheduler, 进而启动 JobGenerator 和 ReceiverTracker
+    // ssc.start()
+    //    -> JobScheduler.start()
+    //        -> JobGenerator.start();    开始不断生成一个一个 batch
+    //        -> ReceiverTracker.start(); 开始往 executor 上分布 ReceiverSupervisor 了，也会进一步创建和启动 Receiver
+    ssc.awaitTermination()
+
+    // 然后用户 code 主线程就 block 在下面这行代码了
+    // block 的后果就是，后台的 JobScheduler 线程周而复始的产生一个一个 batch 而不停息
+    // 也就是在这里，我们前面静态定义的 DStreamGraph 的 print()，才一次一次被在 RDD 实例上调用，一次一次打印出当前 batch 的结果
     ssc.awaitTermination()
   }
 
   def processLogs(messages: RDD[ConsumerRecord[String, String]]): RDD[(LocalDateTime, Int)] = {
-    messages.map(_.value)
+    messages.map(x=>{
+
+     // println(x)
+      x.value
+    })
       .flatMap(parseLog)
       .filter(_.level == "ERROR")
       .map(log => log.time.truncatedTo(ChronoUnit.MINUTES) -> 1)

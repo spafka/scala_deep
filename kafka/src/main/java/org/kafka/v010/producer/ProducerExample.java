@@ -1,9 +1,11 @@
 package org.kafka.v010.producer;
 
 import org.apache.kafka.clients.producer.*;
+import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Properties;
 
 public class ProducerExample {
@@ -43,15 +45,16 @@ public class ProducerExample {
     }
 
     private static void sendMessages(Producer<String, String> producer) throws InterruptedException {
-        String topic = "normal-topic";
-        int partition = 0;
+        String topic = "alog";
+//        int partition = 0;
         long record = 1;
-        for (int i = 1; i <= 10; i++) {
-            producer.send(new ProducerRecord<String, String>(topic, partition, Long.toString(record), Long.toString(record++)),
-                    new DemoCallBack(System.currentTimeMillis(),i,Long.toString(i)));
+        for (int i = 1; true; i++) {
+            producer.send(new ProducerRecord<String, String>(topic, Long.toString(i),new DateTime().toString("yyyy-MM-dd HH:mm:ss")+" ERROR some message"),
+                    new DemoCallBack(System.currentTimeMillis(),i,new DateTime().toString("yyyy-MM-dd HH:mm:ss")+" ERROR some message"));
+            Thread.sleep(100);
         }
 
-        Thread.sleep(10000);
+
     }
 
   static   class DemoCallBack implements Callback {
@@ -81,7 +84,7 @@ public class ProducerExample {
                 System.out.println(
 
                         new Timestamp(System.currentTimeMillis()) +
-                                "message(" + key + ", " + message + ") sent to partition(" + metadata.partition() +
+                                "  message(" + key + ", " + message + ") sent to partition(" + metadata.partition() +
                                 "), " +
                                 "offset(" + metadata.offset() + ") in " + elapsedTime + " ms");
             } else {
