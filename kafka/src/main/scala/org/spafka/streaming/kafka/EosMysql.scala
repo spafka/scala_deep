@@ -18,6 +18,10 @@ import scalikejdbc._
 
 class EosMysql
 
+
+/**
+  * http://shzhangji.com/cnblogs/2017/08/01/how-to-achieve-exactly-once-semantics-in-spark-streaming/
+  */
 object EosMysql {
 
   private val logger: Logger = Logger[EosMysql]
