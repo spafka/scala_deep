@@ -1,9 +1,10 @@
 package org.spafka.sql.chapter1
 
 import org.apache.spark.SparkContext
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Encoders, SparkSession}
 import org.apache.spark.sql.types.StructType
 import org.spafka.sql.Common
+import org.spafka.sql.chapter1.DfExample.Canser
 import org.spafka.sql.chapter1.UdfExample.{CancerClass, spark}
 
 object rdd extends App {
@@ -16,7 +17,7 @@ object rdd extends App {
 
   private val sc: SparkContext = spark.sparkContext
 
-  val cancerRDD = sc.textFile("spark-sql/src/main/resources/breast-cancer-wisconsin.data", 4)
+  val cancerRDD = sc.textFile("spark-sql-streaming/src/main/resources/breast-cancer-wisconsin.data", 4)
   cancerRDD.partitions.size
 
 
@@ -30,16 +31,7 @@ object rdd extends App {
   val data = cancerRDD.map(_.split(",").to[List]).map(row)
 
 
-  val recordSchema = new StructType()
-    .add("sample", "long")
-    .add("cThick", "integer")
-    .add("uCSize", "integer")
-    .add("uCShape", "integer")
-    .add("mAdhes", "integer")
-    .add("sECSize", "integer")
-    .add("bNuc", "integer").add("bChrom", "integer")
-    .add("nNuc", "integer").add("mitosis", "integer")
-    .add("clas", "integer")
+  val recordSchema =  Encoders.product[Canser].schema
 
   val cancerDF2 = spark.createDataFrame(data, recordSchema)
 

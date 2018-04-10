@@ -44,7 +44,7 @@ public class AvroProducer {
     Logger logger = LoggerFactory.getLogger("AvroKafkaProducter");
     public static final String USER_SCHEMA = "{"
             + "\"type\":\"record\","
-            + "\"name\":\"Iteblog\","
+            + "\"name\":\"test\","
             + "\"fields\":["
             + "  { \"name\":\"str1\", \"type\":\"string\" },"
             + "  { \"name\":\"str2\", \"type\":\"string\" },"
@@ -53,7 +53,7 @@ public class AvroProducer {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092,localhost:9093");
+        props.put("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9093");
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
         //“所有”设置将导致记录的完整提交阻塞，最慢的，但最持久的设置。
@@ -65,9 +65,9 @@ public class AvroProducer {
         props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, DefaultPartitioner.class);
 
         //The producer maintains buffers of unsent records for each partition.
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 5000000);
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 500);
         // 默认立即发送，这里这是延时毫秒数 可以提高吞吐量
-        props.put(ProducerConfig.LINGER_MS_CONFIG, 1000);
+        props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
         // 生产者缓冲大小，当缓冲区耗尽后，额外的发送调用将被阻塞。时间超过max.block.ms将抛出TimeoutException
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
 
@@ -78,7 +78,7 @@ public class AvroProducer {
 
         KafkaProducer<String, byte[]> producer = new KafkaProducer<>(props);
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000000; i++) {
             GenericData.Record avroRecord = new GenericData.Record(schema);
             avroRecord.put("str1", "Str 1-" + i);
             avroRecord.put("str2", "Str 2-" + i);
@@ -86,10 +86,10 @@ public class AvroProducer {
 
             byte[] bytes = recordInjection.apply(avroRecord);
 
-            ProducerRecord<String, byte[]> record = new ProducerRecord<>("spafka", null, bytes);
-            RecordMetadata recordMetadata = producer.send(record).get();
+            ProducerRecord<String, byte[]> record = new ProducerRecord<>("test", null, bytes);
+            producer.send(record);
 
-            System.out.println(recordMetadata.offset());
+            //System.out.println(recordMetadata.offset());
 
 
         }

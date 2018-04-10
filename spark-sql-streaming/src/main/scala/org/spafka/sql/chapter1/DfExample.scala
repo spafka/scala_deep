@@ -6,7 +6,7 @@ import org.spafka.sql.Common
 
 object DfExample {
 
-  case class schema(sample: String, cThick: Int, uCSize: Int, uCShape: Int,
+  case class Canser(sample: String, cThick: Int, uCSize: Int, uCShape: Int,
                     mAdhes: Int, sECSize: Int, bNuc: Int, bChrom: Int,
                     nNuc: Int, mitosis: Int, clas: Int)
 
@@ -21,19 +21,9 @@ object DfExample {
     spark.conf.set("spark.executor.cores", "2")
     spark.conf.set("spark.executor.memory", "4g")
 
-         new StructType()
-          .add("sample", "long")
-          .add("cThick", "integer")
-          .add("uCSize", "integer")
-          .add("uCShape", "integer")
-          .add("mAdhes", "integer")
-          .add("sECSize", "integer")
-          .add("bNuc", "integer").add("bChrom", "integer")
-          .add("nNuc", "integer").add("mitosis", "integer")
-          .add("clas", "integer")
 
     // 手动获取schema
-    val recordSchema =  Encoders.product[schema].schema
+    val recordSchema =  Encoders.product[Canser].schema
     Encoders.product[(Long, Long)]
 
     //Replace directory for the input file with location of the file on your machine.

@@ -6,5 +6,5 @@ docker-compose up -d
 
 docker exec -it kafka0 /bin/bash
 
-bin/kafka-topics.sh --zookeeper zookeeper0:2181 --create --topic alog --partitions 3 --replication-factor 3
+bin/kafka-topics.sh --zookeeper zookeeper0:2181 --create --topic test --partitions 3 --replication-factor 3
 bin/kafka-topics.sh  --list  --zookeeper zookeeper0:2181

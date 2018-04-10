@@ -2,6 +2,7 @@ package com.highperformancespark.examples.dataframe;
 
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.api.java.UDF1;
 import org.apache.spark.sql.expressions.MutableAggregationBuffer;
 import org.apache.spark.sql.expressions.UserDefinedAggregateFunction;
 import org.apache.spark.sql.types.*;
@@ -12,7 +13,12 @@ public class JavaUDFs {
     //tag::basicUDF[]
     sqlContext.udf()
       .register("strlen",
-                (String s) -> s.length(), DataTypes.StringType);
+              new UDF1<String, Object>() {
+                @Override
+                public Object call(String s) throws Exception {
+                  return s.length();
+                }
+              }, DataTypes.StringType);
     //end::basicUDF[]
   }
 
