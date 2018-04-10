@@ -3,8 +3,12 @@ package org.spafka.sql.streaming
 import java.util.Properties
 import java.util.concurrent.ExecutionException
 
+import com.twitter.bijection.Injection
+import com.twitter.bijection.avro.GenericAvroCodecs
 import org.apache.avro.Schema
 import org.apache.avro.generic.{GenericData, GenericRecord}
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
+import org.apache.kafka.clients.producer.internals.DefaultPartitioner
 import org.slf4j.LoggerFactory
 
 object producer {

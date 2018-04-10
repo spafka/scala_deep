@@ -23,16 +23,18 @@ import com.twitter.bijection.avro.GenericAvroCodecs;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.clients.producer.internals.DefaultPartitioner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -44,11 +46,12 @@ public class AvroProducer {
     Logger logger = LoggerFactory.getLogger("AvroKafkaProducter");
     public static final String USER_SCHEMA = "{"
             + "\"type\":\"record\","
-            + "\"name\":\"test\","
+            + "\"name\":\"orderDetail\","
             + "\"fields\":["
-            + "  { \"name\":\"str1\", \"type\":\"string\" },"
-            + "  { \"name\":\"str2\", \"type\":\"string\" },"
-            + "  { \"name\":\"int1\", \"type\":\"int\" }"
+            + "  { \"name\":\"orderId\", \"type\":\"int\" },"
+            + "  { \"name\":\"mid\", \"type\":\"int\" },"
+            + "  { \"name\":\"amount\", \"type\":\"double\" },"
+            + "  { \"name\":\"time\", \"type\":\"int\" }"
             + "]}";
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
@@ -78,16 +81,19 @@ public class AvroProducer {
 
         KafkaProducer<String, byte[]> producer = new KafkaProducer<>(props);
 
+        long time = new Date().getTime();
         for (int i = 0; i < 10000000; i++) {
             GenericData.Record avroRecord = new GenericData.Record(schema);
-            avroRecord.put("str1", "Str 1-" + i);
-            avroRecord.put("str2", "Str 2-" + i);
-            avroRecord.put("int1", i);
+            avroRecord.put("orderId", RandomUtils.nextLong(Long.MAX_VALUE >>1, Long.MAX_VALUE));
+            avroRecord.put("mid", RandomUtils.nextLong(201701010000L,201701010099L));
+            avroRecord.put("amount", RandomUtils.nextDouble(0.0d,10000d));
+            avroRecord.put("time", time+RandomUtils.nextLong(0,360000000L));
 
             byte[] bytes = recordInjection.apply(avroRecord);
 
-            ProducerRecord<String, byte[]> record = new ProducerRecord<>("test", null, bytes);
+            ProducerRecord<String, byte[]> record = new ProducerRecord<>("order", null, bytes);
             producer.send(record);
+            TimeUnit.MILLISECONDS.sleep(10);
 
             //System.out.println(recordMetadata.offset());
 
