@@ -15,7 +15,7 @@ class MixedDataset(sqlCtx: SQLContext) {
   import sqlCtx.implicits._
 
   /**
-   * A sample function on a Dataset of RawPandas.
+    * A sample java.java.util.function on a Dataset of RawPandas.
    *
    * This is contrived, since our reduction could also be done with SQL aggregates,
    * but we can see the flexibility of being able to specify arbitrary Scala code.
@@ -27,7 +27,7 @@ class MixedDataset(sqlCtx: SQLContext) {
   }
 
   /**
-   * A sample function on a Dataset of RawPandas.
+    * A sample java.java.util.function on a Dataset of RawPandas.
    * Use the first attribute to deterimine if a panda is squishy.
    */
   //tag::basicSelect[]

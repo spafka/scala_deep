@@ -17,17 +17,8 @@
 
 package org.apache.spark.unsafe.map;
 
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.Closeables;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.apache.spark.SparkEnv;
 import org.apache.spark.executor.ShuffleWriteMetrics;
 import org.apache.spark.memory.MemoryConsumer;
@@ -42,6 +33,14 @@ import org.apache.spark.unsafe.hash.Murmur3_x86_32;
 import org.apache.spark.unsafe.memory.MemoryBlock;
 import org.apache.spark.util.collection.unsafe.sort.UnsafeSorterSpillReader;
 import org.apache.spark.util.collection.unsafe.sort.UnsafeSorterSpillWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * An append-only hash map where keys and values are contiguous regions of bytes.
@@ -434,7 +433,7 @@ public final class BytesToBytesMap extends MemoryConsumer {
    * Looks up a key, and return a {@link Location} handle that can be used to test existence
    * and read/write values.
    *
-   * This function always return the same {@link Location} instance to avoid object allocation.
+   * This java.java.util.function always return the same {@link Location} instance to avoid object allocation.
    */
   public Location lookup(Object keyBase, long keyOffset, int keyLength) {
     safeLookup(keyBase, keyOffset, keyLength, loc,
@@ -446,7 +445,7 @@ public final class BytesToBytesMap extends MemoryConsumer {
    * Looks up a key, and return a {@link Location} handle that can be used to test existence
    * and read/write values.
    *
-   * This function always return the same {@link Location} instance to avoid object allocation.
+   * This java.java.util.function always return the same {@link Location} instance to avoid object allocation.
    */
   public Location lookup(Object keyBase, long keyOffset, int keyLength, int hash) {
     safeLookup(keyBase, keyOffset, keyLength, loc, hash);
@@ -499,7 +498,7 @@ public final class BytesToBytesMap extends MemoryConsumer {
   }
 
   /**
-   * Handle returned by {@link BytesToBytesMap#lookup(Object, long, int)} function.
+   * Handle returned by {@link BytesToBytesMap#lookup(Object, long, int)} java.java.util.function.
    */
   public final class Location {
     /** An index into the hash map's Long array */

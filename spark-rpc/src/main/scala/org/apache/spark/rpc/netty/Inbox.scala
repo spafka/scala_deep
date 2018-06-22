@@ -1,12 +1,10 @@
 package org.apache.spark.rpc.netty
 
 import javax.annotation.concurrent.GuardedBy
-
 import org.apache.spark.RpcException
 import org.apache.spark.rpc.{RpcAddress, RpcEndpoint, ThreadSafeRpcEndpoint}
 import org.slf4j.LoggerFactory
 
-import scala.reflect.ClassTag
 import scala.util.control.NonFatal
 
 
@@ -101,8 +99,8 @@ private[netty] class Inbox(val endpointRef: NettyRpcEndpointRef,
             } catch {
               case NonFatal(e) =>
                 context.sendFailure(e)
-                // Throw the exception -- this exception will be caught by the safelyCall function.
-                // The endpoint's onError function will be called.
+                // Throw the exception -- this exception will be caught by the safelyCall java.java.util.function.
+                // The endpoint's onError java.java.util.function will be called.
                 throw e
             }
 
@@ -199,7 +197,7 @@ private[netty] class Inbox(val endpointRef: NettyRpcEndpointRef,
   }
 
   /**
-    * Calls action closure, and calls the endpoint's onError function in the case of exceptions.
+    * Calls action closure, and calls the endpoint's onError java.java.util.function in the case of exceptions.
     */
   private def safelyCall(endpoint: RpcEndpoint)(action: => Unit): Unit = {
     try action catch {

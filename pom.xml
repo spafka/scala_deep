@@ -35,8 +35,7 @@
         <module>highper-formance-spark</module>
         <module>antlr4</module>
         <module>kafka</module>
-        <module>storm</module>
-        <module>stormapp</module>
+        <module>stream</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -61,7 +60,7 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
 
         <!--依赖 scalatest-->
@@ -186,6 +185,13 @@
             <configuration>
                 <source>1.8</source>
                 <target>1.8</target>
+                <encoding>utf8</encoding>
+                <compilerArguments>
+                    <verbose/>
+                    <bootclasspath>
+                        ${java.home}\lib\rt.jar${path.separator}${java.home}\lib\jce.jar
+                    </bootclasspath>
+                </compilerArguments>
             </configuration>
         </plugin>
             <!--<plugin>-->

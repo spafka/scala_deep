@@ -1,7 +1,7 @@
 package applications.stock_price_feed
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectInputStream, ObjectOutputStream}
-import java.util.{Arrays, Properties}
+import java.util.{Arrays, EmbeddedKafkaServer, PartitionMapAnalyzer, Properties, SimpleKafkaClient}
 
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
@@ -9,7 +9,6 @@ import org.apache.kafka.common.serialization.{Deserializer, Serializer}
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.{SparkConf, SparkContext}
-import util.{EmbeddedKafkaServer, PartitionMapAnalyzer, SimpleKafkaClient}
 
 import scala.collection.{Iterator, mutable}
 

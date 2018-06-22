@@ -95,7 +95,7 @@ object ThreadUtils {
     *
     * SomeException: exception-message
     * at CallerClass.body-method (sourcefile.scala)
-    * at ... run in separate thread using org.apache.spark.util.ThreadUtils ... ()
+    * at ... run in separate thread using org.apache.spark.java.util.ThreadUtils ... ()
     * at CallerClass.caller-method (sourcefile.scala)
     * ...
     */

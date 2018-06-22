@@ -2,8 +2,8 @@
 //
 //import java.net.InetAddress
 //import java.nio.ByteBuffer
-//import java.util.HashMap
-//import java.util.concurrent.{ArrayBlockingQueue, BlockingQueue, LinkedBlockingQueue, TimeUnit}
+//import java.java.util.HashMap
+//import java.java.util.concurrent.{ArrayBlockingQueue, BlockingQueue, LinkedBlockingQueue, TimeUnit}
 //
 //import com.yammer.metrics.core.Gauge
 //import kafka.api.{ControlledShutdownRequest, FetchRequest, RequestOrResponse}

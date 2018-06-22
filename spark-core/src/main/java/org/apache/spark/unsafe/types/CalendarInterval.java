@@ -33,7 +33,7 @@ public final class CalendarInterval implements Serializable {
   public static final long MICROS_PER_WEEK = MICROS_PER_DAY * 7;
 
   /**
-   * A function to generate regex which matches interval string's unit part like "3 years".
+   * A java.java.util.function to generate regex which matches interval string's unit part like "3 years".
    *
    * First, we can leave out some units in interval string, and we only care about the value of
    * unit, so here we use non-capturing group to wrap the actual regex.

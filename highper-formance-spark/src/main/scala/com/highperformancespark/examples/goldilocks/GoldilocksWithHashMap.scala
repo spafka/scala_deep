@@ -288,13 +288,13 @@ object FindTargetsSubRoutine extends Serializable {
    * element on that partition for that column index and we are looking for both the
    * second and third element.
    *
-   * @param valueColumnPairsIter passed in from the mapPartitions function.
-   *                             An iterator of the sorted:
-   *                             ((value, columnIndex), count) tupples.
-   * @param targetsInThisPart - (columnIndex, index-on-partition pairs). In the above
-   *                          example this would include (4, 2) and (4,3) since we
-   *                          desire the 2nd element for column index 4 on this
-   *                          partition and the 3rd element.
+    * @param valueColumnPairsIter passed in from the mapPartitions java.java.util.function.
+    *                             An iterator of the sorted:
+    *                             ((value, columnIndex), count) tupples.
+    * @param targetsInThisPart    - (columnIndex, index-on-partition pairs). In the above
+    *                             example this would include (4, 2) and (4,3) since we
+    *                             desire the 2nd element for column index 4 on this
+    *                             partition and the 3rd element.
    * @return All of the rank statistics that live in this partition as an iterator
    *          of (columnIndex, value pairs)
    */
@@ -341,7 +341,7 @@ object FindTargetsSubRoutine extends Serializable {
 
 
   /**
-   * Same function as above but rather than building the result from an array buffer
+    * Same java.java.util.function as above but rather than building the result from an array buffer
    * we use a flatMap on the iterator to get the resulting iterator.
    */
   //tag::iterToIter[]

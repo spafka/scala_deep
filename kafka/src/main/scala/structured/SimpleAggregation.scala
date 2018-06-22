@@ -1,8 +1,9 @@
 package structured
 
+import java.util.{EmbeddedKafkaServer, SimpleKafkaClient}
+
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.apache.spark.sql.SparkSession
-import util.{EmbeddedKafkaServer, SimpleKafkaClient}
 
 /**
   * A streaming DataFrame is created from a single Kafka topic, an aggregating query is set up to count
@@ -40,8 +41,6 @@ object SimpleAggregation {
       .appName("Structured_Simple")
       .config("spark.master", "local[4]")
       .getOrCreate()
-
-    import spark.implicits._
 
     val ds1 = spark
       .readStream

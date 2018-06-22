@@ -15,8 +15,8 @@ limitations under the License.
 */
 package com.twitter.bijection
 
-import scala.util.{ Failure, Success, Try }
 import scala.util.control.NonFatal
+import scala.util.{Failure, Try}
 
 /**
  *  Factory for producing InversionFailures
@@ -36,7 +36,7 @@ object InversionFailure {
     Failure(apply(b))
 
   /**
-   * Produces a failed attempt statisfying a partial function defined
+    * Produces a failed attempt statisfying a partial java.java.util.function defined
    * for any non-fatal Throwable
    */
   def partialFailure[A, B](b: B): PartialFunction[Throwable, Try[A]] = {

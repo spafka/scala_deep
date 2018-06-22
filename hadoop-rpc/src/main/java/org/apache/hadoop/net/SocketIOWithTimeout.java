@@ -73,9 +73,9 @@ abstract class SocketIOWithTimeout {
   SelectableChannel getChannel() {
     return channel;
   }
-  
-  /** 
-   * Utility function to check if channel is ok.
+
+    /**
+     * Utility java.java.util.function to check if channel is ok.
    * Mainly to throw IOException instead of runtime exception
    * in case of mismatch. This mismatch can occur for many runtime
    * reasons.
@@ -195,8 +195,8 @@ abstract class SocketIOWithTimeout {
       while (true) {
         // we might have to call finishConnect() more than once
         // for some channels (with user level protocols)
-        
-        int ret = selector.select((SelectableChannel)channel, 
+
+          int ret = selector.select(channel,
                                   SelectionKey.OP_CONNECT, timeoutLeft);
         
         if (ret > 0 && channel.finishConnect()) {

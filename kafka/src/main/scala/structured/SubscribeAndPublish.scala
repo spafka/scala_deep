@@ -1,11 +1,10 @@
 package structured
 
-import java.io.File
+import java.util.{EmbeddedKafkaServer, SimpleKafkaClient}
 
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.streaming.{ProcessingTime, Trigger}
-import util.{TemporaryDirectories, EmbeddedKafkaServer, SimpleKafkaClient}
+import org.apache.spark.sql.streaming.Trigger
 
 /**
   * Two Kafka topics are set up and a KafkaProducer is used to publish to the first topic.

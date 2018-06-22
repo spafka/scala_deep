@@ -1,8 +1,9 @@
 package structured
 
+import java.util.{EmbeddedKafkaServer, SimpleKafkaClient}
+
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.apache.spark.sql.SparkSession
-import util.{EmbeddedKafkaServer, SimpleKafkaClient}
 
 /**
   * A very simple example of structured streaming from a Kafka source, where the messages
