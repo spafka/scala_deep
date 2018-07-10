@@ -24,8 +24,6 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents a function that accepts one argument and produces a result.
  *

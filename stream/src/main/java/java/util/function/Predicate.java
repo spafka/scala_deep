@@ -24,8 +24,6 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents a predicate (boolean-valued function) of one argument.
  *

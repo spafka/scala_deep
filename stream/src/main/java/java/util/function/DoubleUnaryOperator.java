@@ -24,8 +24,6 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents an operation on a single {@code double}-valued operand that produces
  * a {@code double}-valued result.  This is the primitive type specialization of

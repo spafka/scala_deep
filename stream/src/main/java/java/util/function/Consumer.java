@@ -24,8 +24,6 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents an operation that accepts a single input argument and returns no
  * result. Unlike most other functional interfaces, {@code Consumer} is expected

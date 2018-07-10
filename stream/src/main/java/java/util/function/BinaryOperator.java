@@ -25,7 +25,6 @@
 package java.util.function;
 
 import java.util.Comparator;
-import java.util.Objects;
 
 /**
  * Represents an operation upon two operands of the same type, producing a result

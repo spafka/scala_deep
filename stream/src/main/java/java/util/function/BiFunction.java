@@ -24,8 +24,6 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents a function that accepts two arguments and produces a result.
  * This is the two-arity specialization of {@link Function}.

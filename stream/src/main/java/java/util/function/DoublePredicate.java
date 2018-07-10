@@ -24,8 +24,6 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents a predicate (boolean-valued function) of one {@code double}-valued
  * argument. This is the {@code double}-consuming primitive type specialization

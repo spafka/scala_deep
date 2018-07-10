@@ -24,8 +24,6 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents an operation that accepts a single {@code long}-valued argument and
  * returns no result.  This is the primitive type specialization of

@@ -24,8 +24,6 @@
  */
 package java.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents an operation that accepts two input arguments and returns no
  * result.  This is the two-arity specialization of {@link Consumer}.
