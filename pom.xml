@@ -26,13 +26,11 @@
         <module>scala-in-depth</module>
         <module>scalable-io</module>
         <module>bijection</module>
-        <module>hadoop-rpc</module>
-        <module>clojure</module>
         <module>docker</module>
         <module>mesos</module>
         <module>spark-core</module>
         <module>spark-sql-streaming</module>
-        <module>highper-formance-spark</module>
+        <module>highper-spark</module>
         <module>antlr4</module>
         <module>kafka</module>
     </modules>

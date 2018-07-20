@@ -16,50 +16,43 @@
 package io.netty.example.echo;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.CharsetUtil;
 
-/**
- * Handler implementation for the echo client.  It initiates the ping-pong
- * traffic between the echo client and server by sending the first message to
- * the server.
- */
-public class EchoClientHandler extends ChannelInboundHandlerAdapter {
+import java.nio.charset.Charset;
 
-    private final ByteBuf firstMessage;
+public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
-    /**
-     * Creates a client-side handler.
-     */
-    public EchoClientHandler() {
-        firstMessage = Unpooled.buffer(EchoClient.SIZE);
-//        for (int i = 0; i < firstMessage.capacity(); i ++) {
-//            firstMessage.writeByte("4".getBytes()[0]);
-//        }
+    private String messageToSend;
 
-        firstMessage.writeByte("qwe".getBytes()[0]);
+    public EchoClientHandler(String message) {
+        messageToSend=message;
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) {
-        ctx.writeAndFlush(firstMessage);
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("client channelActive..");
+
+        // 必须存在flush
+        ctx.write(Unpooled.copiedBuffer(messageToSend, CharsetUtil.UTF_8));
+        ctx.flush();
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ctx.write(msg);
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+        System.out.println("client channelRead..");
+        ByteBuf buf = msg.readBytes(msg.readableBytes());
+        System.out.println("Client received:" + ByteBufUtil.hexDump(buf) + "; The value is:" + buf.toString(Charset.forName("utf-8")));
+        //ctx.channel().close().sync();// client关闭channel连接
     }
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-       ctx.flush();
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        // Close the connection when an exception is raised.
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
         ctx.close();
     }
+
 }

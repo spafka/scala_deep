@@ -43,7 +43,7 @@ public final class EchoClient {
     static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
     static final int SIZE = Integer.parseInt(System.getProperty("size", "256"));
 
-    public static void main(String[] args) throws Exception {
+    public static void run(String HOST,int PORT,String args) throws Exception {
         // Configure SSL.git
         final SslContext sslCtx;
         if (SSL) {
@@ -68,7 +68,7 @@ public final class EchoClient {
                          p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
                      }
                     // p.addLast(new LoggingHandler(LogLevel.INFO));
-                     p.addLast(new EchoClientHandler());
+                     p.addLast(new EchoClientHandler(args));
                  }
              });
 
@@ -81,5 +81,14 @@ public final class EchoClient {
             // Shut down the event loop to terminate all threads.
             group.shutdownGracefully();
         }
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        while (true){
+            run("localhost",8007,"hello netty");
+            Thread.sleep(1000);
+        }
+
     }
 }
