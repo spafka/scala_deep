@@ -17,7 +17,8 @@ limitations under the License.
 package com.twitter.bijection
 
 import java.io.Serializable
-import scala.util.{ Success, Try }
+
+import scala.util.{Success, Try}
 
 /**
  * Convert allows the user to convert an instance of type A to type B given an implicit Conversion
@@ -27,7 +28,7 @@ import scala.util.{ Success, Try }
  * Array(1.toByte, 2.toByte).as[String]
  *
  * Thanks to
- * [hylotech](https://github.com/hylotech/suits/blob/master/src/main/scala/hylotech/util/Bijection.scala)
+  * [hylotech](https://github.com/hylotech/suits/blob/master/src/main/scala/hylotech/java.util/Bijection.scala)
  * for the following "as" pattern.
  */
 case class Convert[A](a: A) extends AnyVal {
@@ -37,7 +38,7 @@ case class Convert[A](a: A) extends AnyVal {
   def as[B](implicit conv: Conversion[A, B]): B = conv(a)
 }
 
-// Looks like a function, but we don't want a subclass relationship
+// Looks like a java.java.util.function, but we don't want a subclass relationship
 trait Conversion[A, B] extends Serializable {
   def apply(a: A): B
 }

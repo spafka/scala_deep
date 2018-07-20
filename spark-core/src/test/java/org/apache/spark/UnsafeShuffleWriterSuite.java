@@ -27,7 +27,7 @@
 //import org.apache.spark.io.SnappyCompressionCodec;
 //import org.apache.spark.memory.TaskMemoryManager;
 //import org.apache.spark.memory.TestMemoryManager;
-//import org.apache.spark.network.util.LimitedInputStream;
+//import org.apache.spark.network.java.util.LimitedInputStream;
 //import org.apache.spark.scheduler.MapStatus;
 //import org.apache.spark.security.CryptoStreamUtils;
 //import org.apache.spark.serializer.*;
@@ -37,7 +37,7 @@
 //import org.apache.spark.shuffle.sort.ShuffleExternalSorter;
 //import org.apache.spark.shuffle.sort.UnsafeShuffleWriter;
 //import org.apache.spark.storage.*;
-//import org.apache.spark.util.Utils;
+//import org.apache.spark.java.util.Utils;
 //import org.junit.After;
 //import org.junit.Before;
 //import org.junit.Test;
@@ -54,7 +54,7 @@
 //import java.io.IOException;
 //import java.io.InputStream;
 //import java.nio.ByteBuffer;
-//import java.util.*;
+//import java.java.util.*;
 //
 //import static org.hamcrest.Matchers.greaterThan;
 //import static org.hamcrest.Matchers.lessThan;

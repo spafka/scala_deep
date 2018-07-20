@@ -23,7 +23,7 @@ object Rep {
 }
 
 /**
- * Type class for summoning the function that can check whether the instance can be tagged with Rep
+  * Type class for summoning the java.java.util.function that can check whether the instance can be tagged with Rep
  */
 trait HasRep[A, B] {
   def toRep(a: A): Option[A @@ Rep[B]]

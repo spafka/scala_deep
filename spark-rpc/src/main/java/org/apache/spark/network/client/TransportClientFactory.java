@@ -25,8 +25,6 @@ import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 import org.apache.spark.network.TransportContext;
-import org.apache.spark.network.client.TransportClient;
-import org.apache.spark.network.client.TransportClientBootstrap;
 import org.apache.spark.network.server.TransportChannelHandler;
 import org.apache.spark.network.util.IOMode;
 import org.apache.spark.network.util.JavaUtils;
@@ -110,7 +108,7 @@ public class TransportClientFactory implements Closeable {
    *
    * We maintains an array of clients (size determined by spark.shuffle.io.numConnectionsPerPeer)
    * and randomly picks one to use. If no client was previously created in the randomly selected
-   * spot, this function creates a new client and places it there.
+   * spot, this java.java.util.function creates a new client and places it there.
    *
    * Prior to the creation of a new TransportClient, we will execute all
    * {@link TransportClientBootstrap}s that are registered with this factory.

@@ -6,7 +6,8 @@ package org.apache
   * 总结来说，就是用netty ，实现一个轻量级Akka程序
   *    rpcEnv => ActorSystem
   *    rpcEndpoint => actor
-  *    rpcEndpoint => actorRef
+  * rpcEndpointRef => actorRef
+  *
   * @author spark Develops
   *
   */

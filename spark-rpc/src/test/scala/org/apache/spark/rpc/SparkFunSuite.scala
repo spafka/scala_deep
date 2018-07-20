@@ -41,7 +41,7 @@ abstract class SparkFunSuite
     }
   }
 
-  // helper function
+  // helper java.java.util.function
   protected final def getTestResourceFile(file: String): File = {
     new File(getClass.getClassLoader.getResource(file).getFile)
   }

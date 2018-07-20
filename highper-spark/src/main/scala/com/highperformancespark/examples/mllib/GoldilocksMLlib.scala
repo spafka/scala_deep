@@ -1,21 +1,18 @@
 package com.highperformancespark.examples.mllib
 
 import com.highperformancespark.examples.dataframe._
-
-import scala.collection.{Map, mutable}
-import scala.collection.mutable.{ArrayBuffer, MutableList}
-
 import org.apache.spark._
 import org.apache.spark.rdd.RDD
+
+import scala.collection.Map
 //tag::imports[]
 import com.github.fommil.netlib.BLAS.{getInstance => blas}
+import org.apache.spark.mllib.classification.{LogisticRegressionModel, LogisticRegressionWithLBFGS}
 import org.apache.spark.mllib.linalg.Vectors
-import org.apache.spark.mllib.classification.{LogisticRegressionWithLBFGS,
-  LogisticRegressionModel}
 // Rename Vector to SparkVector to avoid conflicts with Scala's Vector class
+import org.apache.spark.mllib.feature._
 import org.apache.spark.mllib.linalg.{Vector => SparkVector}
 import org.apache.spark.mllib.regression.LabeledPoint
-import org.apache.spark.mllib.feature._
 //end::imports[]
 
 object GoldilocksMLlib {
@@ -110,7 +107,7 @@ object GoldilocksMLlib {
     // Vector size is 100 - we use this to build a transformer on top of WVM that
     // works on sentences.
     val vectorSize = 100
-    // The transform function works on a per-word basis, but we have
+    // The transform java.java.util.function works on a per-word basis, but we have
     // sentences as input.
     tokenized.map{words =>
       // If there is nothing in the sentence output a null vector

@@ -1,8 +1,8 @@
 package org.apache.spark.rpc.netty
 
 import java.util.concurrent._
-import javax.annotation.concurrent.GuardedBy
 
+import javax.annotation.concurrent.GuardedBy
 import org.apache.spark.RpcException
 import org.apache.spark.network.client.RpcResponseCallback
 import org.apache.spark.rpc.{RpcEndpoint, RpcEndpointAddress, RpcEndpointRef, RpcEnvStoppedException}
@@ -132,10 +132,10 @@ private[netty] class Dispatcher(nettyEnv: NettyRpcEnv) {
     *
     * @param endpointName      name of the endpoint.
     * @param message           the message to post
-    * @param callbackIfStopped callback function if the endpoint is stopped.
+    * @param callbackIfStopped callback java.java.util.function if the endpoint is stopped.
     *
-    * 根据上面的代码可以看出，Dispatcher在进行Message分发到相应的Endpoint进行处理时，实际上是将Message分发到endpointData中进行处理了
-    * ，而EndpointData类中最重要的成员就是inbox，下面介绍Inbox。
+    *                          根据上面的代码可以看出，Dispatcher在进行Message分发到相应的Endpoint进行处理时，实际上是将Message分发到endpointData中进行处理了
+    *                          ，而EndpointData类中最重要的成员就是inbox，下面介绍Inbox。
     *
     */
   private def postMessage(

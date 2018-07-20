@@ -30,7 +30,7 @@ object EnglishInt {
   val word2num: Map[String, Int] = (units ++ tens ++ teens ++ tenmult).map(kv => (kv._2, kv._1))
   val s = " "
 
-  // a helper function that converts num of type Int to a String
+  // a helper java.java.util.function that converts num of type Int to a String
   // num belongs to exactly one of several bins
   // [0,20], [20,d], [d,k], [k,m],[m,g]
   // given the bin, we divide by suitable divisor to obtain quotient & remainder
@@ -48,7 +48,7 @@ object EnglishInt {
     }
   }
 
-  // a helper function that recursively converts num of type Int to a string
+  // a helper java.java.util.function that recursively converts num of type Int to a string
   private def divide(num: Int, div: Int): Option[String] = {
     val (quo, rem) = (num / div, num % div)
     if (div == t) {
@@ -60,7 +60,7 @@ object EnglishInt {
     }
   }
 
-  // a helper function that converts valid strings to Int, invalid to None
+  // a helper java.java.util.function that converts valid strings to Int, invalid to None
   private def fromEnglish(str: String): Option[Int] = {
     val list = str.split(s).toList // strip spaces
     val valid = list.map(word2num.keySet.contains).foldLeft(true)(_ && _)
@@ -70,7 +70,7 @@ object EnglishInt {
     } else None
   }
 
-  // a helper function that recursively converts List[Int] to Int
+  // a helper java.java.util.function that recursively converts List[Int] to Int
   private def numlist2int(numbers: List[Int]): Int = {
     val (id, ik, im) = (numbers.indexOf(d), numbers.indexOf(k), numbers.indexOf(m))
     val has_100 = id > -1

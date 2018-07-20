@@ -1,8 +1,9 @@
 package structured
 
+import java.util.{EmbeddedKafkaServer, SimpleKafkaClient}
+
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.apache.spark.sql.{ForeachWriter, Row, SparkSession}
-import util.{EmbeddedKafkaServer, SimpleKafkaClient}
 
 /**
   * The 'foreach' operation allows arbitrary computations on the output data in way that is both

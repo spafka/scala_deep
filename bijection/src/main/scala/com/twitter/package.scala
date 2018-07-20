@@ -21,7 +21,7 @@ import scala.util.Try
 /**
  * Bijection trait with numerous implementations.
  *
- * A Bijection[A, B] is an invertible function from A -> B.
+  * A Bijection[A, B] is an invertible java.java.util.function from A -> B.
  * Knowing that two types have this relationship can be very helpful
  * for serialization (Bijection[T, Array[Byte]]]), communication between
  * libraries (Bijection[MyTrait, YourTrait]) and many other purposes.
@@ -31,8 +31,8 @@ package object bijection {
   /**
    * Injections may not be defined for their inverse conversion.
    * This type represents the attempted conversion. A failure
-   * will result in a scala.util.Failure containing the InversionFailure. A success
-   * will result in a scala.util.Success containing the inverted value.
+    * will result in a scala.java.util.Failure containing the InversionFailure. A success
+    * will result in a scala.java.util.Success containing the inverted value.
    *
    * TODO: Remove in 0.6.0.
    */

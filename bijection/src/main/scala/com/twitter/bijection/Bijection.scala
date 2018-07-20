@@ -17,6 +17,7 @@ limitations under the License.
 package com.twitter.bijection
 
 import java.io.Serializable
+
 import scala.annotation.implicitNotFound
 import scala.reflect.ClassTag
 
@@ -129,7 +130,7 @@ object Bijection extends CollectionBijections
     }
 
   /**
-   * Converts a function that transforms type A into a function that
+    * Converts a java.java.util.function that transforms type A into a java.java.util.function that
    * transforms type B.
    */
   implicit def fnBijection[A, B, C, D](implicit bij1: ImplicitBijection[A, B], bij2: ImplicitBijection[C, D]): Bijection[A => C, B => D] = new AbstractBijection[A => C, B => D] {
@@ -138,7 +139,7 @@ object Bijection extends CollectionBijections
   }
 
   /**
-   * Converts a function that combines two arguments of type A into a function that
+    * Converts a java.java.util.function that combines two arguments of type A into a java.java.util.function that
    * combines two arguments of type B into a single B. Useful for converting
    * input functions to "reduce".
    * TODO: codegen these up to Function22 if they turn out to be useful.

@@ -64,7 +64,7 @@ trait PivotEncoder[K, K1, K2] extends (Iterable[K] => Map[K1, Iterable[K2]]) wit
       .mapValues { _.map { case (_, k2s) => k2s }.flatten }
 
   /**
-   * "Uncurries" the supplied nested fn of K1 and K2  into a function
+    * "Uncurries" the supplied nested fn of K1 and K2  into a java.java.util.function
    * that accepts a single K.
    */
   def unsplit[V](fn: K1 => K2 => V): K => V = { k =>
@@ -85,7 +85,7 @@ trait PivotDecoder[K, K1, K2] extends (Map[K1, Iterable[K2]] => Iterable[K]) wit
   def apply(m: Map[K1, Iterable[K2]]) = for ((k1, k2s) <- m; k2 <- k2s) yield dec((k1, k2))
 
   /**
-   * Curries the supplied fn of K into a nested function
+    * Curries the supplied fn of K into a nested java.java.util.function
    * of K1 then K2 using the inversion of `pivot`.
    */
   def split[V](fn: K => V): K1 => K2 => V =

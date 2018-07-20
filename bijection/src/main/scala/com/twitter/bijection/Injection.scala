@@ -17,13 +17,15 @@ limitations under the License.
 package com.twitter.bijection
 
 import java.io.Serializable
-import scala.annotation.implicitNotFound
-import scala.util.{ Failure, Success, Try }
+
 import com.twitter.bijection.Inversion.attempt
+
+import scala.annotation.implicitNotFound
 import scala.reflect.ClassTag
+import scala.util.{Failure, Success, Try}
 
 /**
- * An Injection[A, B] is a function from A to B, and from some B back to A.
+  * An Injection[A, B] is a java.java.util.function from A to B, and from some B back to A.
  * see: http://mathworld.wolfram.com/Injection.html
  */
 
@@ -104,7 +106,7 @@ object Injection extends CollectionInjections
     }
 
   /**
-   * Like build, but you give a function from B => A which may throw
+    * Like build, but you give a java.java.util.function from B => A which may throw
    * If you never expect from to throw, use Bijection.build
    */
   def buildCatchInvert[A, B](to: A => B)(from: B => A): Injection[A, B] =
@@ -177,7 +179,7 @@ object Injection extends CollectionInjections
   def subclass[A, B >: A](implicit cmf: ClassTag[A]): Injection[A, B] = CastInjection.of[A, B]
 
   /**
-   * Get a partial from B => D from injections and a function from A => C
+    * Get a partial from B => D from injections and a java.java.util.function from A => C
    */
   def toPartial[A, C, B, D](fn: A => C)(implicit inj1: Injection[A, B], inj2: Injection[C, D]): PartialFunction[B, D] = new PartialFunction[B, D] {
     override def isDefinedAt(b: B) = inj1.invert(b).isSuccess
