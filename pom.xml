@@ -11,10 +11,10 @@
     </parent>
 
     <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>centralllll</id>-->
-            <!--<url>http://downloads.mesosphere.io/maven</url>-->
-        <!--</repository>-->
+    <!--<repository>-->
+    <!--<id>centralllll</id>-->
+    <!--<url>http://downloads.mesosphere.io/maven</url>-->
+    <!--</repository>-->
     <!--</repositories>-->
     <groupId>org.spafka</groupId>
     <artifactId>scala</artifactId>
@@ -137,7 +137,6 @@
         </dependency>
 
 
-
     </dependencies>
 
 
@@ -178,38 +177,38 @@
             </plugin>
 
             <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-                <encoding>utf8</encoding>
-                <compilerArguments>
-                    <verbose/>
-                    <bootclasspath>
-                        ${java.home}\lib\rt.jar${path.separator}${java.home}\lib\jce.jar
-                    </bootclasspath>
-                </compilerArguments>
-            </configuration>
-        </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>utf8</encoding>
+                    <compilerArguments>
+                        <verbose/>
+                        <bootclasspath>
+                            ${java.home}\lib\rt.jar${path.separator}${java.home}\lib\jce.jar
+                        </bootclasspath>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-assembly-plugin</artifactId>-->
-                <!--<version>2.2-beta-5</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>create-executable-jar</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>single</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<descriptorRefs>-->
-                                <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
-                            <!--</descriptorRefs>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-assembly-plugin</artifactId>-->
+            <!--<version>2.2-beta-5</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>create-executable-jar</id>-->
+            <!--<phase>package</phase>-->
+            <!--<goals>-->
+            <!--<goal>single</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+            <!--<descriptorRefs>-->
+            <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+            <!--</descriptorRefs>-->
+            <!--</configuration>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
         </plugins>
     </build>
